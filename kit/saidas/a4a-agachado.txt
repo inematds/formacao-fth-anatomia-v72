@@ -1,0 +1,9 @@
+joelho dobrado 90° · altura da pelve 0.59 m · 8 contatos com o chão
+junta                         torque (N·m)  limite  % do limite
+left_knee_joint                         31     139          22%
+right_knee_joint                        31     139          22%
+left_hip_pitch_joint                     2      88           2%
+right_hip_pitch_joint                    2      88           2%
+conferência mj_inverse (left_knee_joint): 31 N·m
+joelhos: esquerdo 31 N·m · direito 31 N·m
+maior torque: left_knee_joint 31 N·m

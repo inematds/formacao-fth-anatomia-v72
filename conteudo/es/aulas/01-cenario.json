@@ -1,0 +1,357 @@
+{
+  "slug": "cenario",
+  "num": 1,
+  "menu": "Escenario",
+  "titulo": "Humanoides en oct/2026: demo, piloto y producción",
+  "titulo_curto": "Demo, piloto y producción",
+  "minutos": 15,
+  "lead": "Hay videos de humanoides de sobra; robots entregados a quien paga, no tanto. Antes de abrir cualquier modelo, aprenderás a separar demo, piloto y producción con fuente y fecha, a leer el precio de un humanoide sin caer en el número viejo y a reconocer las plataformas que un laboratorio puede comprar hoy.",
+  "objetivo": "clasificar 6 humanoides en demo, piloto o producción, cada uno con fuente y fecha, sin repetir precio o modelo desactualizado.",
+  "competencias": [
+    "separar-demo-de-producao",
+    "citar-fonte-e-data",
+    "ler-preco-por-versao"
+  ],
+  "aprende": [
+    {
+      "icone": "camadas",
+      "t": "Las tres etapas y la evidencia que exige cada una"
+    },
+    {
+      "icone": "robo",
+      "t": "Quién está dónde en oct/2026: Figure, Atlas, Optimus, Unitree, 1X, Booster"
+    },
+    {
+      "icone": "lupa",
+      "t": "Por qué el G1 no tiene un solo precio"
+    },
+    {
+      "icone": "check",
+      "t": "La tabla de 6 robots y el script que revisa fuente y fecha"
+    }
+  ],
+  "hero_alt": "Pasillo de almacén oscuro con un robot humanoide cargando una caja al fondo y un portapapeles en primer plano.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "Del video al robot en serie",
+      "sub": "Cada nivel pide una evidencia más fuerte. Haz clic para ver quién está en cada uno en oct/2026.",
+      "estilo": "escada",
+      "nos": [
+        {
+          "icone": "video",
+          "titulo": "Demo",
+          "sub": "video, evento",
+          "itens": [
+            {
+              "icone": "robo",
+              "t": "Tesla Optimus V3"
+            },
+            {
+              "icone": "robo",
+              "t": "1X NEO"
+            }
+          ],
+          "detalhe": "Solo hay video, escenario o preventa. El Optimus V3 no se había mostrado en público hasta ago/2026; Tesla promete iniciar la producción antes de fin de 2026 en un comunicado a la SEC. El 1X NEO está en preventa (US$ 20 mil) y la fábrica produce desde el 30/04/2026, pero la entrega a clientes no estaba confirmada (reportado, 07/2026)."
+        },
+        {
+          "icone": "alvo",
+          "titulo": "Piloto",
+          "sub": "en un cliente",
+          "itens": [
+            {
+              "icone": "robo",
+              "t": "Figure 03 · BMW"
+            },
+            {
+              "icone": "robo",
+              "t": "Atlas · Hyundai"
+            },
+            {
+              "icone": "robo",
+              "t": "Digit · GXO"
+            }
+          ],
+          "detalhe": "Trabaja en un cliente, en una tarea acotada, en poca cantidad. Figure 03 (lanzado en 10/2025) con el Helix 02 (27/01/2026) llegó a BMW Spartanburg alrededor de 06/2026; el Atlas de producto salió en la CES 2026 con el lote de 2026 comprometido con Hyundai y Google DeepMind; el Digit mueve cajas en GXO. Todo reportado por la prensa."
+        },
+        {
+          "icone": "check",
+          "titulo": "Producción",
+          "sub": "a la venta",
+          "forte": true,
+          "itens": [
+            {
+              "icone": "robo",
+              "t": "Unitree G1, R1, H2"
+            },
+            {
+              "icone": "robo",
+              "t": "Booster K1"
+            }
+          ],
+          "detalhe": "Se vende con precio público a quien paga. Unitree lista G1 (US$ 13,5 mil el base), R1 (US$ 4.900 / 5.900) y H2 (US$ 29.900) en la tienda oficial; Booster vende el K1 también por el programa de la RoboCup 2026. Es el nivel de las plataformas de investigación."
+        },
+        {
+          "icone": "grafico",
+          "titulo": "Escala",
+          "sub": "miles/año",
+          "itens": [
+            {
+              "icone": "grafico",
+              "t": "Unitree: 5.511 en 2025"
+            },
+            {
+              "icone": "grafico",
+              "t": "UBTech: meta de 5.000"
+            }
+          ],
+          "detalhe": "Miles por año. Unitree habría enviado 5.511 humanoides en 2025 y salió a bolsa en el STAR el 19/08/2026; UBTech entrega el Walker S2 desde 11/2025 y apunta a 5.000 por año en 2026. Ambos reportados, sin auditoría independiente."
+        }
+      ],
+      "legenda": "Marca la etapa más baja que respalde tu fuente. Un video bonito no sube a nadie de nivel.",
+      "dica": "Los datos con \"reportado\" vienen de prensa o de agregadores; los de tienda oficial se leyeron el 19/10/2026."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "Cuatro trampas de quien lee el mercado",
+      "sub": "Haz clic en cada una.",
+      "passos": [
+        {
+          "titulo": "Precio único",
+          "sub": "el G1 tiene tres",
+          "texto": [
+            "El G1 base cuesta US$ 13,5 mil en la tienda de Unitree, pero viene <b>sin desarrollo secundario</b>: sin SDK, no sirve para investigación. El EDU, que sí sirve, se vende bajo consulta; las reventas citan de US$ 43,5 mil a 73,9 mil (reportado).",
+            "En el programa de la RoboCup 2026, la versión de competición tiene un precio público de US$ 35 mil. Son tres productos con el mismo nombre."
+          ],
+          "exemplo": {
+            "rot": "Cómo escribirlo",
+            "texto": "G1 base: US$ 13.500, sin SDK (unitree.com/g1, leído el 19/10/2026). EDU: bajo consulta; el precio varía según la versión y la reventa."
+          }
+        },
+        {
+          "titulo": "Modelo viejo",
+          "sub": "Figure 01/02, de 2023–24",
+          "texto": [
+            "El material de 2024–25 todavía habla de Figure 01 y 02 con \"GPT-4 integrado\". Hoy es el Figure 03, con el Helix 02 controlando el cuerpo entero (el controlador de bajo nivel corre a 1 kHz, según Figure).",
+            "El Atlas hidráulico fue retirado; el Atlas de producto es eléctrico y salió en la CES 2026."
+          ]
+        },
+        {
+          "titulo": "Proveedor que cerró",
+          "sub": "K-Scale cerró (11/2025)",
+          "texto": [
+            "K-Scale Labs, que vendía el K-Bot abierto, <b>cerró en 11/2025</b> y abrió el resto del proyecto (reportado). No lo recomiendes como proveedor.",
+            "Plataformas baratas que existen: Unitree R1 (US$ 5.900), Booster K1 (95 cm, 22 grados de libertad), Berkeley Humanoid Lite (menos de US$ 5 mil en piezas, reportado) y ToddlerBot (30 grados de libertad, lista de piezas pública)."
+          ]
+        },
+        {
+          "titulo": "Récord como prueba",
+          "sub": "competiciones",
+          "texto": [
+            "La media maratón de humanoides de Pekín (19/04/2026) la ganó en 50:26 un robot autónomo, frente a 2:40:42 en 2025; los Juegos Mundiales de Robots Humanoides de agosto/2026 reunieron a cerca de 2.056 robots (reportado).",
+            "Un récord muestra avance en locomoción, no que el robot trabaje en una fábrica. El mercado y las rondas de inversión quedan en el curso de VLA."
+          ]
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "La tabla y el verificador",
+      "sub": "El kit del curso trae la tabla con 6 robots y un script que reprueba la línea sin etapa, sin URL o sin fecha. El primer comando descarga el kit en ~/fth/anatomia y crea tu copia en ~/fth/fichas.csv.",
+      "blocos": [
+        {
+          "rot": "Archivo · kit/fichas-modelo.csv",
+          "icone": "arquivo",
+          "conteudo": "robo,estagio,fonte,data,evidencia\nUnitree G1,,,,\nUnitree R1,,,,\nBooster K1,,,,\nFigure 03,,,,\nBoston Dynamics Atlas,,,,\n1X NEO,,,,"
+        },
+        {
+          "rot": "Terminal · descargar el kit y verificar la tabla vacía",
+          "icone": "terminal",
+          "conteudo": "F=${FTH:-$HOME/fth}; mkdir -p $F && cd $F\n[ -d anatomia ] || git clone -q --depth 1 https://github.com/inematds/formacao-fth-anatomia-v72 anatomia\n[ -f fichas.csv ] || cp anatomia/kit/fichas-modelo.csv fichas.csv   # tu copia para completar\npython3 anatomia/kit/conferir_fichas.py anatomia/kit/fichas-modelo.csv; echo \"saída: $?\""
+        }
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {
+            "rot": "Salida capturada (19/10/2026)",
+            "html": "<pre>  Unitree G1             falta: estágio, fonte, data\n  Unitree R1             falta: estágio, fonte, data\n  Booster K1             falta: estágio, fonte, data\n  Figure 03              falta: estágio, fonte, data\n  Boston Dynamics Atlas  falta: estágio, fonte, data\n  1X NEO                 falta: estágio, fonte, data\nestágios: demo 0 · piloto 0 · produção 0\n6 robôs, 0 com fonte e data\nsaída: 1</pre><p>La tabla vacía reprueba: 0 de 6 y código de salida 1. Así es como el criterio falla antes del trabajo.</p>"
+          },
+          {
+            "rot": "Error común: \"próximamente\" y el video como fuente",
+            "html": "<pre>  Tesla Optimus V3       falta: estágio, fonte, data\nestágios: demo 0 · piloto 0 · produção 0\n1 robôs, 0 com fonte e data\nsaída: 1</pre><p>\"Próximamente\" no es una etapa, \"lo vi en un video\" no es una URL y \"2026\" solo no es una fecha. Para el Optimus V3, la respuesta honesta es <b>demo</b>, con la fuente de Tesla y la fecha.</p>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "Después de completar",
+      "sub": "Abre ~/fth/fichas.csv, completa estágio, fonte (https://), data y la evidencia en pocas palabras. Las fuentes están en el diagrama, en las trampas y en los enlaces del final de la clase.",
+      "blocos": [
+        {
+          "rot": "Terminal · verificar tu tabla",
+          "icone": "terminal",
+          "conteudo": "F=${FTH:-$HOME/fth}; cd $F\npython3 anatomia/kit/conferir_fichas.py fichas.csv; echo \"saída: $?\""
+        }
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {
+            "rot": "Salida capturada (19/10/2026)",
+            "html": "<pre>  Unitree G1             produção  19/10/2026\n  Unitree R1             produção  19/10/2026\n  Booster K1             produção  19/10/2026\n  Figure 03              piloto    27/01/2026\n  Boston Dynamics Atlas  piloto    01/2026\n  1X NEO                 demo      04/2026\nestágios: demo 1 · piloto 2 · produção 3\n6 robôs, 6 com fonte e data\nsaída: 0</pre><p>Una respuesta posible, con las fuentes de esta clase. Puedes discrepar de una etapa (¿el Atlas ya es producción?), siempre que la evidencia lo respalde.</p>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Práctica",
+      "sub": "Todo corre en Python puro: todavía no necesitas MuJoCo.",
+      "exercicios": [
+        {
+          "id": "e1",
+          "titulo": "E1 · Descargar el kit y ver cómo la tabla reprueba",
+          "min": "5 min",
+          "texto": "Ejecuta el bloque \"descargar el kit y verificar la tabla vacía\". Crea ~/fth/anatomia y ~/fth/fichas.csv.",
+          "pronto": "la salida termina en <code>6 robôs, 0 com fonte e data</code> y <code>saída: 1</code>."
+        },
+        {
+          "id": "e2",
+          "titulo": "E2 · Completar los 6 robots",
+          "min": "15 min",
+          "texto": "Completa ~/fth/fichas.csv. Abre la fuente de cada robot y marca la etapa más baja que ella sostiene; en la evidencia, una frase corta.",
+          "pronto": "<code>cd ~/fth && python3 anatomia/kit/conferir_fichas.py fichas.csv; echo \"saída: $?\"</code> → <code>6 robôs, 6 com fonte e data</code> y <code>saída: 0</code>."
+        },
+        {
+          "id": "e3",
+          "titulo": "E3 · Un séptimo robot",
+          "min": "10 min",
+          "texto": "Agrega una línea con un humanoide que hayas visto esta semana (video, noticia, post). Encuentra la fuente primaria y la fecha antes de elegir la etapa.",
+          "pronto": "el verificador imprime <code>7 robôs, 7 com fonte e data</code>; si no encontraste fuente, la línea queda reprobada y eso también es una respuesta."
+        }
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Prueba de la clase",
+      "sub": "La explicación aparece después de tu respuesta.",
+      "perguntas": [
+        {
+          "p": "Un laboratorio quiere el Unitree G1 para escribir su propio controlador. ¿Qué versión sirve?",
+          "opcoes": [
+            "La base de US$ 13,5 mil, la más barata de la tienda.",
+            "La EDU, que se vende bajo consulta y trae el SDK.",
+            "Cualquiera: el SDK es igual en todas.",
+            "Solo la de competencia de la RoboCup."
+          ],
+          "certa": 1,
+          "explica": "La base viene sin desarrollo secundario (sin SDK). Para programar el robot, la versión es la EDU, bajo consulta. El precio depende de la versión y del revendedor.",
+          "ref": "passos",
+          "cert": true
+        },
+        {
+          "p": "Una empresa publica un video del robot doblando ropa y abre preventa. ¿Qué etapa sostiene la evidencia?",
+          "opcoes": [
+            "Producción, porque ya hay precio público en la tienda.",
+            "Piloto, porque hay clientes que pagan una seña de la preventa.",
+            "Demo, hasta que haya una entrega a un cliente confirmada.",
+            "Escala, porque la fábrica ya está produciendo."
+          ],
+          "certa": 2,
+          "explica": "Preventa y video siguen siendo demo. Piloto pide el robot trabajando en un cliente; producción pide entrega en serie a quien paga. Es el caso del 1X NEO en 2026.",
+          "ref": "diagrama"
+        },
+        {
+          "p": "¿Cuál de estas frases puede entrar en un material de oct/2026 sin salvedad?",
+          "opcoes": [
+            "El Optimus V3 se mostró al público en el 1.er trimestre de 2026, como estaba previsto.",
+            "El Figure 03 ya se vende al consumidor en el sitio oficial de Figure.",
+            "El G1 base viene con SDK y cuesta US$ 13,5 mil en la tienda de Unitree.",
+            "Unitree lista el R1 desde US$ 4.900 (tienda oficial, 19/10/2026)."
+          ],
+          "certa": 3,
+          "explica": "Solo la del R1 tiene fuente primaria y fecha. El Optimus V3 no había aparecido en público hasta ago/2026, el Figure 03 no tiene venta al consumidor y el G1 base viene sin SDK.",
+          "ref": "passos"
+        },
+        {
+          "p": "La media maratón de Pekín de 2026 se ganó en 50:26. ¿Qué prueba ese número?",
+          "opcoes": [
+            "Que los humanoides ya hacen turno completo en una fábrica.",
+            "Que la locomoción autónoma avanzó mucho en un año.",
+            "Que el robot ganador está a la venta.",
+            "Que la carrera y la manipulación tienen el mismo nivel."
+          ],
+          "certa": 1,
+          "explica": "En 2025 el tiempo fue 2:40:42. El salto muestra locomoción, no trabajo útil ni producto a la venta. El récord es vitrina; la etapa de un producto se prueba con entrega.",
+          "ref": "passos"
+        }
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "En tres frases",
+      "itens": [
+        {
+          "t": "Etapa",
+          "texto": "Demo, piloto, producción, escala: marca el nivel más bajo que la fuente sostiene."
+        },
+        {
+          "t": "Precio",
+          "texto": "Siempre con versión, fuente y fecha; el G1 base no tiene SDK."
+        },
+        {
+          "t": "Viejo",
+          "texto": "Figure 01/02, K-Scale y el G1 a 16 mil son de antes de 2026."
+        }
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Para ir más allá",
+      "links": [
+        {
+          "t": "Unitree G1: ficha y precio oficial",
+          "href": "https://www.unitree.com/g1",
+          "icone": "robo"
+        },
+        {
+          "t": "Unitree R1 y H2 en la tienda oficial",
+          "href": "https://www.unitree.com/R1",
+          "icone": "robo"
+        },
+        {
+          "t": "Booster K1: ficha oficial",
+          "href": "https://www.booster.tech/booster-k1/",
+          "icone": "robo"
+        },
+        {
+          "t": "RoboCup 2026: precios del programa de robots",
+          "href": "https://robotprogram.robocup.org/",
+          "icone": "lista"
+        },
+        {
+          "t": "Figure: Helix 02 (27/01/2026)",
+          "href": "https://www.figure.ai/news/helix-02",
+          "icone": "cerebro"
+        },
+        {
+          "t": "Boston Dynamics: el Atlas de producto (CES 2026)",
+          "href": "https://bostondynamics.com/blog/boston-dynamics-unveils-new-atlas-robot-to-revolutionize-industry/",
+          "icone": "robo"
+        },
+        {
+          "t": "1X: la fábrica del NEO",
+          "href": "https://www.1x.tech/discover/neo-factory",
+          "icone": "robo"
+        },
+        {
+          "t": "Mercado, rondas y normas: curso VLA, clase 8",
+          "href": "https://inematds.github.io/vla-v72/es/",
+          "icone": "grafico"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+pack 13S × 3.7 V = 48.1 V nominal · 48.1 V × 9 Ah = 433 Wh (conta derivada)
+energia 433 Wh · potência média 216 W
+autonomia: 120 min (2.0 h), sem reserva
+energia 972 Wh · potência média 324 W
+autonomia: 180 min (3.0 h), sem reserva
+   1000 Hz →    1.0 ms por ciclo
+    500 Hz →    2.0 ms por ciclo
+    200 Hz →    5.0 ms por ciclo
+     50 Hz →   20.0 ms por ciclo
+     10 Hz →  100.0 ms por ciclo

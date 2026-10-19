@@ -1,0 +1,2 @@
+ERRO: não achei unitree_g1/scene.xml (nem em /tmp/sem-menagerie/mujoco_menagerie). Rode a preparação da aula 2.
+saída: 1

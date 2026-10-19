@@ -1,0 +1,3 @@
+unitree_h1: nq=26 nv=25 nu=19
+robotis_op3: nq=27 nv=26 nu=20
+booster_t1: nq=30 nv=29 nu=23

@@ -1,0 +1,289 @@
+{
+  "slug": "juntas",
+  "num": 3,
+  "menu": "Juntas",
+  "titulo": "Grados de libertad, articulaciones y límites",
+  "titulo_curto": "Articulaciones y límites",
+  "minutos": 15,
+  "lead": "\"23 a 43 grados de libertad\" es propaganda; el árbol de articulaciones del archivo es el cuerpo que va a comandar tu controlador. En esta clase listas las 29 articulaciones del G1 con límites en grados y torque máximo, entiendes por qué la pierna tiene seis y compruebas que el número coincide con los actuadores.",
+  "objetivo": "listar las articulaciones del G1 con límites en grados y torque máximo y comprobar que el número de articulaciones articuladas coincide con nu.",
+  "competencias": [
+    "ler-a-arvore-de-juntas",
+    "converter-limites",
+    "contar-graus-de-liberdade"
+  ],
+  "aprende": [
+    {
+      "icone": "camadas",
+      "t": "El árbol de cuerpos: pelvis, piernas, cintura y brazos"
+    },
+    {
+      "icone": "lista",
+      "t": "Por qué la pierna tiene 6 articulaciones y en qué orden"
+    },
+    {
+      "icone": "lupa",
+      "t": "Límite en radianes en el archivo, en grados en tu cabeza"
+    },
+    {
+      "icone": "check",
+      "t": "Grados de libertad del archivo × de la ficha del fabricante"
+    }
+  ],
+  "hero_alt": "Pierna de robot humanoide industrial sobre un banco de trabajo, con la cadera, la rodilla y el tobillo a la vista y un transportador de metal al lado.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "Las 29 articulaciones del G1 de Menagerie",
+      "sub": "Cada bloque es una rama del árbol que empieza en la pelvis. Haz clic para ver las articulaciones.",
+      "nos": [
+        {
+          "icone": "alvo",
+          "titulo": "Pelvis",
+          "sub": "base libre",
+          "itens": [
+            {
+              "icone": "seta",
+              "t": "7 posiciones, 6 velocidades",
+              "sub": "sin motor"
+            }
+          ],
+          "detalhe": "La raíz del árbol. No tiene motor: el robot solo cambia de lugar empujando el suelo. Por eso caminar es difícil."
+        },
+        {
+          "icone": "robo",
+          "titulo": "Piernas",
+          "sub": "6 + 6",
+          "forte": true,
+          "itens": [
+            {
+              "icone": "lista",
+              "t": "cadera: pitch, roll, yaw"
+            },
+            {
+              "icone": "lista",
+              "t": "rodilla: pitch"
+            },
+            {
+              "icone": "lista",
+              "t": "tobillo: pitch, roll"
+            }
+          ],
+          "detalhe": "Seis articulaciones por pierna, la misma cuenta que publica Unitree para el G1. Tres en la cadera (hacia adelante, hacia el lado y girar), una en la rodilla y dos en el tobillo. Con seis, el pie puede alcanzar cualquier posición y orientación dentro del alcance."
+        },
+        {
+          "icone": "camadas",
+          "titulo": "Cintura",
+          "sub": "3",
+          "itens": [
+            {
+              "icone": "lista",
+              "t": "yaw, roll, pitch"
+            }
+          ],
+          "detalhe": "El modelo de Menagerie tiene 3 articulaciones en la cintura. La ficha de Unitree dice 1 en la cintura y 2 más opcionales: es la diferencia entre versiones, no un error."
+        },
+        {
+          "icone": "robo",
+          "titulo": "Brazos",
+          "sub": "7 + 7",
+          "itens": [
+            {
+              "icone": "lista",
+              "t": "hombro: pitch, roll, yaw"
+            },
+            {
+              "icone": "lista",
+              "t": "codo"
+            },
+            {
+              "icone": "lista",
+              "t": "muñeca: roll, pitch, yaw"
+            }
+          ],
+          "detalhe": "Siete por brazo en el modelo; la ficha de Unitree habla de 5 en el brazo de la versión base. Las muñecas del modelo aguantan solo 5 N·m: sirven para orientar la mano, no para cargar peso."
+        }
+      ],
+      "legenda": "12 en las piernas + 3 en la cintura + 14 en los brazos = 29 = nu."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "Cómo leer una línea del árbol",
+      "sub": "Haz clic en cada etapa.",
+      "passos": [
+        {
+          "titulo": "Nombre",
+          "sub": "lado, parte, eje",
+          "texto": [
+            "left_hip_roll_joint: pierna izquierda, cadera, rotación en roll (inclinar hacia el lado). Pitch dobla hacia adelante y hacia atrás; yaw gira en torno al eje vertical.",
+            "La sangría de la salida muestra quién cuelga de quién: el tobillo depende de la rodilla, que depende de la cadera."
+          ]
+        },
+        {
+          "titulo": "Límite",
+          "sub": "radianes → grados",
+          "texto": [
+            "El archivo guarda range=\"-0.087267 2.8798\" en radianes; el script lo convierte: -5° a 165° en la rodilla.",
+            "El roll de la cadera es asimétrico y espejado: izquierdo de -30° a 170°, derecho de -170° a 30°. La pierna se abre mucho hacia afuera y poco hacia adentro, donde está la otra pierna."
+          ]
+        },
+        {
+          "titulo": "Torque máximo",
+          "sub": "actuatorfrcrange",
+          "texto": [
+            "El atributo actuatorfrcrange de la articulación recorta lo que el motor puede hacer: 139 N·m en la rodilla, 88 en el pitch de la cadera, 50 en el tobillo, 25 en el hombro, 5 en la muñeca.",
+            "Es el límite del modelo. Las reventas citan 90 N·m (base) y 120 N·m (EDU) para la rodilla del G1 real (reportado): un punto más en el que archivo y robot pueden divergir."
+          ]
+        },
+        {
+          "titulo": "Revisar",
+          "sub": "articulaciones = nu",
+          "texto": [
+            "El total de articulaciones (njnt=30) incluye la base libre. El número que le interesa al controlador es el de articulaciones articuladas, que tiene que coincidir con el de actuadores.",
+            "Si no coincide, sobró una articulación pasiva (sin motor) o un motor fuera de una articulación: ambos cambian tu controlador."
+          ],
+          "exemplo": {
+            "rot": "Línea final del script",
+            "texto": "RESUMO: 29 juntas articuladas + 1 base flutuante · nu=29 · bate com nu: sim"
+          }
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "El árbol del G1",
+      "sub": "El juntas.py lee todo del MJCF e imprime una línea por articulación.",
+      "blocos": [
+        {
+          "rot": "Terminal · listar las juntas",
+          "icone": "terminal",
+          "conteudo": "F=${FTH:-$HOME/fth}; cd $F/anatomia && . $F/.venv/bin/activate\npython3 kit/juntas.py unitree_g1/scene.xml; echo \"saída: $?\""
+        }
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {
+            "rot": "Salida capturada (19/10/2026)",
+            "html": "<pre>unitree_g1/scene.xml · 29 juntas articuladas\njunta                                        mín°   máx°  torque máx (N·m)\n  left_hip_pitch_joint                       -145    165                88\n    left_hip_roll_joint                       -30    170               139\n      left_hip_yaw_joint                     -158    158                88\n        left_knee_joint                        -5    165               139\n          left_ankle_pitch_joint              -50     30                50\n            left_ankle_roll_joint             -15     15                50\n  right_hip_pitch_joint                      -145    165                88\n    right_hip_roll_joint                     -170     30               139\n      right_hip_yaw_joint                    -158    158                88\n        right_knee_joint                       -5    165               139\n          right_ankle_pitch_joint             -50     30                50\n            right_ankle_roll_joint            -15     15                50\n  waist_yaw_joint                            -150    150                88\n    waist_roll_joint                          -30     30                50\n      waist_pitch_joint                       -30     30                50\n        left_shoulder_pitch_joint            -177    153                25\n          left_shoulder_roll_joint            -91    129                25\n            left_shoulder_yaw_joint          -150    150                25\n              left_elbow_joint                -60    120                25\n                left_wrist_roll_joint        -113    113                25\n                  left_wrist_pitch_joint      -93     93                 5\n                    left_wrist_yaw_joint      -93     93                 5\n        right_shoulder_pitch_joint           -177    153                25\n          right_shoulder_roll_joint          -129     91                25\n            right_shoulder_yaw_joint         -150    150                25\n              right_elbow_joint               -60    120                25\n                right_wrist_roll_joint       -113    113                25\n                  right_wrist_pitch_joint     -93     93                 5\n                    right_wrist_yaw_joint     -93     93                 5\nRESUMO: 29 juntas articuladas + 1 base flutuante · nu=29 · bate com nu: sim\nsaída: 0</pre>"
+          },
+          {
+            "rot": "Error común: contar la base como grado de libertad",
+            "html": "<p>El abrir.py de la clase 2 imprime <code>juntas: 30 (1 base flutuante + 29 articuladas)</code>. Quien usa njnt=30 como número de motores arma un vector de comando de 30 posiciones y MuJoCo lo rechaza: ctrl tiene nu=29. Cuenta solo las articuladas.</p>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Práctica",
+      "sub": "Leer el árbol y sacar conclusiones de él.",
+      "exercicios": [
+        {
+          "id": "e1",
+          "titulo": "E1 · El árbol del G1",
+          "min": "5 min",
+          "texto": "Ejecuta el bloque \"listar las juntas\" y marca en la salida las 6 articulaciones de una pierna.",
+          "pronto": "la última línea es <code>RESUMO: 29 juntas articuladas + 1 base flutuante · nu=29 · bate com nu: sim</code> y <code>saída: 0</code>."
+        },
+        {
+          "id": "e2",
+          "titulo": "E2 · El árbol del H1",
+          "min": "5 min",
+          "texto": "Ejecuta el mismo script en el H1 y compara: ¿cuántas articulaciones tiene su pierna y cuál es el mayor torque declarado?",
+          "pronto": "<code>python3 kit/juntas.py unitree_h1/scene.xml | tail -1</code> → <code>RESUMO: 19 juntas articuladas + 1 base flutuante · nu=19 · bate com nu: sim</code>."
+        },
+        {
+          "id": "e3",
+          "titulo": "E3 · La articulación más limitada",
+          "min": "5 min",
+          "texto": "Encuentra en el G1 la articulación de la pierna con el menor rango de movimiento y explica por qué es pequeño.",
+          "pronto": "<code>python3 kit/juntas.py | grep ankle_roll</code> muestra <code>-15     15</code> en las dos líneas, y escribiste una frase sobre el porqué."
+        }
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Prueba de la clase",
+      "sub": "La explicación aparece después de tu respuesta.",
+      "perguntas": [
+        {
+          "p": "El G1 de Menagerie tiene njnt=30 y nu=29. ¿De dónde viene la diferencia?",
+          "opcoes": [
+            "Una articulación del cuello sin motor.",
+            "Un error del archivo, corregido en versiones nuevas.",
+            "La base flotante, que es una articulación sin motor.",
+            "El sensor de IMU, que cuenta como articulación."
+          ],
+          "certa": 2,
+          "explica": "La base libre es una articulación (del tipo free) y no tiene motor. Las 29 articuladas tienen un actuador cada una.",
+          "ref": "passos",
+          "cert": true
+        },
+        {
+          "p": "¿Por qué la pierna de un humanoide suele tener 6 articulaciones?",
+          "opcoes": [
+            "Para poner el pie en cualquier posición y orientación dentro del alcance.",
+            "Porque los motores de los fabricantes vienen en paquetes de seis.",
+            "Porque con menos de seis el robot no puede quedarse de pie quieto.",
+            "Para copiar la pierna humana, que tiene exactamente seis articulaciones iguales."
+          ],
+          "certa": 0,
+          "explica": "Posición (3) y orientación (3) del pie piden seis grados de libertad. Tres en la cadera, uno en la rodilla y dos en el tobillo es la disposición del G1 y de muchos otros.",
+          "ref": "diagrama"
+        },
+        {
+          "p": "La ficha de Unitree dice 1 articulación en la cintura; el modelo de Menagerie tiene 3. ¿Cómo tratar esto?",
+          "opcoes": [
+            "Menagerie está equivocado; usa el valor de 1 articulación de la ficha oficial.",
+            "La ficha de Unitree está equivocada; usa las 3 articulaciones del archivo.",
+            "Sumar las dos fuentes: el robot tiene 4 articulaciones en la cintura.",
+            "Son versiones distintas del G1; anota qué versión representa el modelo."
+          ],
+          "certa": 3,
+          "explica": "El G1 tiene variantes de 23 a 43 grados de libertad. El modelo representa una de ellas; tu controlador tiene que coincidir con la versión del robot que vas a usar.",
+          "ref": "diagrama"
+        }
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "En tres frases",
+      "itens": [
+        {
+          "t": "Árbol",
+          "texto": "Pelvis libre, 6 por pierna, 3 en la cintura, 7 por brazo en el G1 de Menagerie."
+        },
+        {
+          "t": "Límites",
+          "texto": "Rango en radianes y torque en actuatorfrcrange, leídos del archivo."
+        },
+        {
+          "t": "Verificación",
+          "texto": "Articuladas = nu; la base no cuenta."
+        }
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Para ir más allá",
+      "links": [
+        {
+          "t": "MJCF: atributos de joint (range, actuatorfrcrange)",
+          "href": "https://mujoco.readthedocs.io/en/stable/XMLreference.html",
+          "icone": "arquivo"
+        },
+        {
+          "t": "Unitree G1: grados de libertad por versión",
+          "href": "https://www.unitree.com/g1",
+          "icone": "robo"
+        },
+        {
+          "t": "MuJoCo Menagerie: carpeta unitree_g1",
+          "href": "https://github.com/google-deepmind/mujoco_menagerie",
+          "icone": "git"
+        }
+      ]
+    }
+  ]
+}

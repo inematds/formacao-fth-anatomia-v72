@@ -1,0 +1,30 @@
+{
+  "en": {
+    "REGRA: tudo dentro de <pre> e de <code> é saída ou comando real do kit (em português) e fica IGUAL, sem traduzir": "RULE: everything inside <pre> and <code> is real kit output or command (in Portuguese) and stays EXACTLY as is, untranslated (e.g. maior torque, joelhos, CoM dentro do apoio, queda: sim, saída: 0, robôs, com fonte e data, autonomia, FICHA: 7 itens comparados, RESUMO, bate com nu)",
+    "nomes de arquivos, pastas, juntas, atributos do MJCF e colunas do CSV": "never translate (file, folder, joint, MJCF attribute and CSV column names): kit/ fth.py abrir.py juntas.py torque_agachado.py sensores.py equilibrio.py autonomia.py comparar.py conferir_fichas.py capturar.sh fichas-modelo.csv fichas.csv ficha-modelo.md meus_sensores.py ~/fth anatomia mujoco_menagerie unitree_g1 unitree_h1 robotis_op3 booster_t1 apptronik_apollo pal_talos scene.xml g1.xml scene_with_hands.xml stand home nq nv nu njnt qpos qvel ctrl sensordata subtree_com actuatorfrcrange ctrlrange forcerange inheritrange kp dampratio position motor framequat force gyro accelerometer imu_in_pelvis imu_in_torso left_foot right_foot left_knee_joint right_knee_joint hip_pitch hip_roll hip_yaw ankle_pitch ankle_roll waist_yaw waist_roll waist_pitch shoulder elbow wrist robo estagio fonte data evidencia demo piloto produção",
+    "termos técnicos que ficam em inglês": "keep in English as is: sim-to-real, real-to-sim, sim2sim, domain randomization, actuator network, whole-body control, motion tracking, retargeting, teleoperation, policy, reward, checkpoint, MJCF, URDF, DDS, keyframe, sparse-checkout, venv, MjModel, MjData, MjSpec, mj_step, mj_inverse, QDD, CoM, CoP, ZMP, IMU, LiDAR, PD",
+    "pronto quando": "done when",
+    "demo, piloto, produção (estágios; os valores da coluna estagio do CSV ficam em português)": "demo, pilot, production (stages; the CSV estagio values stay in Portuguese: demo, piloto, produção)",
+    "polígono de apoio": "support polygon",
+    "centro de massa": "center of mass",
+    "centro de pressão": "center of pressure",
+    "graus de liberdade": "degrees of freedom",
+    "base flutuante / base livre": "floating base / free base",
+    "relatado": "reported",
+    "conta derivada": "derived calculation"
+  },
+  "es": {
+    "REGRA: tudo dentro de <pre> e de <code> é saída ou comando real do kit (em português) e fica IGUAL, sem traduzir": "REGLA: todo lo que está dentro de <pre> y de <code> es salida o comando real del kit (en portugués) y queda IGUAL, sin traducir (p. ej. maior torque, joelhos, CoM dentro do apoio, queda: sim, saída: 0, robôs, com fonte e data, autonomia, FICHA: 7 itens comparados, RESUMO, bate com nu)",
+    "nomes de arquivos, pastas, juntas, atributos do MJCF e colunas do CSV": "nunca traducir (nombres de archivos, carpetas, articulaciones, atributos MJCF y columnas CSV): kit/ fth.py abrir.py juntas.py torque_agachado.py sensores.py equilibrio.py autonomia.py comparar.py conferir_fichas.py capturar.sh fichas-modelo.csv fichas.csv ficha-modelo.md meus_sensores.py ~/fth anatomia mujoco_menagerie unitree_g1 unitree_h1 robotis_op3 booster_t1 apptronik_apollo pal_talos scene.xml g1.xml scene_with_hands.xml stand home nq nv nu njnt qpos qvel ctrl sensordata subtree_com actuatorfrcrange ctrlrange forcerange inheritrange kp dampratio position motor framequat force gyro accelerometer imu_in_pelvis imu_in_torso left_foot right_foot left_knee_joint right_knee_joint hip_pitch hip_roll hip_yaw ankle_pitch ankle_roll waist_yaw waist_roll waist_pitch shoulder elbow wrist robo estagio fonte data evidencia demo piloto produção",
+    "termos técnicos que ficam em inglês": "mantener en inglés tal cual: sim-to-real, real-to-sim, sim2sim, domain randomization, actuator network, whole-body control, motion tracking, retargeting, teleoperation, policy, reward, checkpoint, MJCF, URDF, DDS, keyframe, sparse-checkout, venv, MjModel, MjData, MjSpec, mj_step, mj_inverse, QDD, CoM, CoP, ZMP, IMU, LiDAR, PD",
+    "pronto quando": "listo cuando",
+    "demo, piloto, produção (estágios; os valores da coluna estagio do CSV ficam em português)": "demo, piloto, producción (etapas; los valores de la columna estagio del CSV quedan en portugués: demo, piloto, produção)",
+    "polígono de apoio": "polígono de apoyo",
+    "centro de massa": "centro de masa",
+    "centro de pressão": "centro de presión",
+    "graus de liberdade": "grados de libertad",
+    "base flutuante / base livre": "base flotante / base libre",
+    "relatado": "reportado",
+    "conta derivada": "cálculo derivado"
+  }
+}

@@ -1,0 +1,9 @@
+G1 parado 1 s · 7 sensores (4 do arquivo + 3 acrescentados)
+  imu-torso-angular-velocity         [0. 0. 0.]
+  imu-torso-linear-acceleration      [0.  0.  9.8]
+  imu-pelvis-angular-velocity        [0. 0. 0.]
+  imu-pelvis-linear-acceleration     [0.  0.  9.8]
+IMU (pelve): inclinação lateral 0.0° · frente/trás -0.1°
+sensor de força no tornozelo: pé esquerdo 158 N · pé direito 157 N
+contatos com o chão:          pé esquerdo 164 N · pé direito 163 N
+soma dos contatos / peso do robô (327 N): 1.00

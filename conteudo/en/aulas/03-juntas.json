@@ -1,0 +1,289 @@
+{
+  "slug": "juntas",
+  "num": 3,
+  "menu": "Joints",
+  "titulo": "Degrees of freedom, joints, and limits",
+  "titulo_curto": "Joints and limits",
+  "minutos": 15,
+  "lead": "\"23 to 43 degrees of freedom\" is marketing; the joint tree in the file is the body your controller will command. In this lesson you list the G1's 29 joints with limits in degrees and maximum torque, understand why the leg has six, and check that the number matches the actuators.",
+  "objetivo": "list the G1's joints with limits in degrees and maximum torque, and check that the number of articulated joints matches nu.",
+  "competencias": [
+    "ler-a-arvore-de-juntas",
+    "converter-limites",
+    "count-degrees-of-freedom"
+  ],
+  "aprende": [
+    {
+      "icone": "camadas",
+      "t": "The body tree: pelvis, legs, waist, and arms"
+    },
+    {
+      "icone": "lista",
+      "t": "Why the leg has 6 joints and in what order"
+    },
+    {
+      "icone": "lupa",
+      "t": "Limits are in radians in the file, in degrees in your head"
+    },
+    {
+      "icone": "check",
+      "t": "Degrees of freedom in the file × on the manufacturer's spec sheet"
+    }
+  ],
+  "hero_alt": "Leg of an industrial humanoid robot on a workbench, with the hip, knee, and ankle exposed and a metal protractor beside it.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "The 29 joints of the G1 from Menagerie",
+      "sub": "Each block is a branch of the tree that starts at the pelvis. Click to see the joints.",
+      "nos": [
+        {
+          "icone": "alvo",
+          "titulo": "Pelvis",
+          "sub": "free base",
+          "itens": [
+            {
+              "icone": "seta",
+              "t": "7 positions, 6 velocities",
+              "sub": "no motor"
+            }
+          ],
+          "detalhe": "The root of the tree. It has no motor: the robot only changes place by pushing against the ground. That is why walking is hard."
+        },
+        {
+          "icone": "robo",
+          "titulo": "Legs",
+          "sub": "6 + 6",
+          "forte": true,
+          "itens": [
+            {
+              "icone": "lista",
+              "t": "hip: pitch, roll, yaw"
+            },
+            {
+              "icone": "lista",
+              "t": "knee: pitch"
+            },
+            {
+              "icone": "lista",
+              "t": "ankle: pitch, roll"
+            }
+          ],
+          "detalhe": "Six joints per leg, the same count Unitree publishes for the G1. Three in the hip (forward, sideways, and turning), one in the knee, and two in the ankle. With six, the foot can reach any position and orientation within range."
+        },
+        {
+          "icone": "camadas",
+          "titulo": "Waist",
+          "sub": "3",
+          "itens": [
+            {
+              "icone": "lista",
+              "t": "yaw, roll, pitch"
+            }
+          ],
+          "detalhe": "The Menagerie model has 3 joints in the waist. The Unitree spec sheet says 1 in the waist plus 2 optional: this is a difference between versions, not an error."
+        },
+        {
+          "icone": "robo",
+          "titulo": "Arms",
+          "sub": "7 + 7",
+          "itens": [
+            {
+              "icone": "lista",
+              "t": "shoulder: pitch, roll, yaw"
+            },
+            {
+              "icone": "lista",
+              "t": "elbow"
+            },
+            {
+              "icone": "lista",
+              "t": "wrist: roll, pitch, yaw"
+            }
+          ],
+          "detalhe": "Seven per arm in the model; the Unitree spec sheet mentions 5 in the arm of the base version. The model's wrists can only handle 5 N·m: they are for orienting the hand, not for carrying weight."
+        }
+      ],
+      "legenda": "12 in the legs + 3 in the waist + 14 in the arms = 29 = nu."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "How to read a line of the tree",
+      "sub": "Click each step.",
+      "passos": [
+        {
+          "titulo": "Name",
+          "sub": "side, part, axis",
+          "texto": [
+            "left_hip_roll_joint: left leg, hip, roll rotation (tilting sideways). Pitch bends forward and backward; yaw turns around the vertical axis.",
+            "The indentation in the output shows what hangs from what: the ankle depends on the knee, which depends on the hip."
+          ]
+        },
+        {
+          "titulo": "Limit",
+          "sub": "radian → degree",
+          "texto": [
+            "The file stores range=\"-0.087267 2.8798\" in radians; the script converts it: -5° to 165° at the knee.",
+            "The hip roll is asymmetric and mirrored: left from -30° to 170°, right from -170° to 30°. The leg opens far outward and only a little inward, where the other leg is."
+          ]
+        },
+        {
+          "titulo": "Maximum torque",
+          "sub": "actuatorfrcrange",
+          "texto": [
+            "The joint's actuatorfrcrange attribute caps what the motor can do: 139 N·m at the knee, 88 at the hip pitch, 50 at the ankle, 25 at the shoulder, 5 at the wrist.",
+            "This is the model's limit. Resellers quote 90 N·m (base) and 120 N·m (EDU) for the real G1's knee (reported): one more point where the file and the robot can differ."
+          ]
+        },
+        {
+          "titulo": "Check",
+          "sub": "joints = nu",
+          "texto": [
+            "The total number of joints (njnt=30) includes the free base. The number that matters to the controller is the number of articulated joints, which must match the number of actuators.",
+            "If they don't match, there is a passive joint (with no motor) or a motor outside a joint: both change your controller."
+          ],
+          "exemplo": {
+            "rot": "Last line of the script",
+            "texto": "RESUMO: 29 juntas articuladas + 1 base flutuante · nu=29 · bate com nu: sim"
+          }
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "The G1 tree",
+      "sub": "juntas.py reads everything from the MJCF and prints one line per joint.",
+      "blocos": [
+        {
+          "rot": "Terminal · list the joints",
+          "icone": "terminal",
+          "conteudo": "F=${FTH:-$HOME/fth}; cd $F/anatomia && . $F/.venv/bin/activate\npython3 kit/juntas.py unitree_g1/scene.xml; echo \"saída: $?\""
+        }
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {
+            "rot": "Captured output (10/19/2026)",
+            "html": "<pre>unitree_g1/scene.xml · 29 juntas articuladas\njunta                                        mín°   máx°  torque máx (N·m)\n  left_hip_pitch_joint                       -145    165                88\n    left_hip_roll_joint                       -30    170               139\n      left_hip_yaw_joint                     -158    158                88\n        left_knee_joint                        -5    165               139\n          left_ankle_pitch_joint              -50     30                50\n            left_ankle_roll_joint             -15     15                50\n  right_hip_pitch_joint                      -145    165                88\n    right_hip_roll_joint                     -170     30               139\n      right_hip_yaw_joint                    -158    158                88\n        right_knee_joint                       -5    165               139\n          right_ankle_pitch_joint             -50     30                50\n            right_ankle_roll_joint            -15     15                50\n  waist_yaw_joint                            -150    150                88\n    waist_roll_joint                          -30     30                50\n      waist_pitch_joint                       -30     30                50\n        left_shoulder_pitch_joint            -177    153                25\n          left_shoulder_roll_joint            -91    129                25\n            left_shoulder_yaw_joint          -150    150                25\n              left_elbow_joint                -60    120                25\n                left_wrist_roll_joint        -113    113                25\n                  left_wrist_pitch_joint      -93     93                 5\n                    left_wrist_yaw_joint      -93     93                 5\n        right_shoulder_pitch_joint           -177    153                25\n          right_shoulder_roll_joint          -129     91                25\n            right_shoulder_yaw_joint         -150    150                25\n              right_elbow_joint               -60    120                25\n                right_wrist_roll_joint       -113    113                25\n                  right_wrist_pitch_joint     -93     93                 5\n                    right_wrist_yaw_joint     -93     93                 5\nRESUMO: 29 juntas articuladas + 1 base flutuante · nu=29 · bate com nu: sim\nsaída: 0</pre>"
+          },
+          {
+            "rot": "Common mistake: counting the base as a degree of freedom",
+            "html": "<p>abrir.py from lesson 2 prints <code>juntas: 30 (1 base flutuante + 29 articuladas)</code>. If you use njnt=30 as the number of motors, you build a command vector with 30 slots and MuJoCo rejects it: ctrl has nu=29. Count only the articulated joints.</p>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Practice",
+      "sub": "Read the tree and draw conclusions from it.",
+      "exercicios": [
+        {
+          "id": "e1",
+          "titulo": "E1 · The G1 tree",
+          "min": "5 min",
+          "texto": "Run the \"list the joints\" block and mark the 6 joints of one leg in the output.",
+          "pronto": "the last line is <code>RESUMO: 29 juntas articuladas + 1 base flutuante · nu=29 · bate com nu: sim</code> and <code>saída: 0</code>."
+        },
+        {
+          "id": "e2",
+          "titulo": "E2 · The H1 tree",
+          "min": "5 min",
+          "texto": "Run the same script on the H1 and compare: how many joints does its leg have, and what is the highest declared torque?",
+          "pronto": "<code>python3 kit/juntas.py unitree_h1/scene.xml | tail -1</code> → <code>RESUMO: 19 juntas articuladas + 1 base flutuante · nu=19 · bate com nu: sim</code>."
+        },
+        {
+          "id": "e3",
+          "titulo": "E3 · The tightest joint",
+          "min": "5 min",
+          "texto": "Find the leg joint with the smallest range of motion on the G1 and explain why it is small.",
+          "pronto": "<code>python3 kit/juntas.py | grep ankle_roll</code> shows <code>-15     15</code> on both lines, and you wrote a sentence about why."
+        }
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Lesson quiz",
+      "sub": "The explanation appears after you answer.",
+      "perguntas": [
+        {
+          "p": "The Menagerie G1 has njnt=30 and nu=29. Where does the difference come from?",
+          "opcoes": [
+            "A neck joint with no motor.",
+            "A file error, fixed in newer versions.",
+            "The floating base, which is a joint with no motor.",
+            "The IMU sensor, which counts as a joint."
+          ],
+          "certa": 2,
+          "explica": "The free base is a joint (of type free) and has no motor. The 29 articulated joints have one actuator each.",
+          "ref": "passos",
+          "cert": true
+        },
+        {
+          "p": "Why does a humanoid's leg usually have 6 joints?",
+          "opcoes": [
+            "To put the foot in any position and orientation within reach.",
+            "Because manufacturers' motors come in packs of six.",
+            "Because with fewer than six, the robot can't stand still.",
+            "To copy the human leg, which has exactly six identical joints."
+          ],
+          "certa": 0,
+          "explica": "Position (3) and orientation (3) of the foot call for six degrees of freedom. Three at the hip, one at the knee, and two at the ankle is the G1's arrangement and that of many others.",
+          "ref": "diagrama"
+        },
+        {
+          "p": "Unitree's spec sheet says 1 waist joint; the Menagerie model has 3. How do you handle that?",
+          "opcoes": [
+            "The Menagerie is wrong; use the 1-joint value from the official spec sheet.",
+            "Unitree's spec sheet is wrong; use the 3 joints from the file.",
+            "Add the two sources together: the robot has 4 waist joints.",
+            "They are different versions of the G1; note which version the model represents."
+          ],
+          "certa": 3,
+          "explica": "The G1 has variants from 23 to 43 degrees of freedom. The model represents one of them; your controller has to match the version of the robot you'll use.",
+          "ref": "diagrama"
+        }
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "In three sentences",
+      "itens": [
+        {
+          "t": "Tree",
+          "texto": "Free pelvis, 6 per leg, 3 at the waist, 7 per arm on the Menagerie G1."
+        },
+        {
+          "t": "Limits",
+          "texto": "Range in radians and torque in actuatorfrcrange, read from the file."
+        },
+        {
+          "t": "Check",
+          "texto": "Articulated joints = nu; the base doesn't count."
+        }
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "To go further",
+      "links": [
+        {
+          "t": "MJCF: joint attributes (range, actuatorfrcrange)",
+          "href": "https://mujoco.readthedocs.io/en/stable/XMLreference.html",
+          "icone": "arquivo"
+        },
+        {
+          "t": "Unitree G1: degrees of freedom by version",
+          "href": "https://www.unitree.com/g1",
+          "icone": "robo"
+        },
+        {
+          "t": "MuJoCo Menagerie: unitree_g1 folder",
+          "href": "https://github.com/google-deepmind/mujoco_menagerie",
+          "icone": "git"
+        }
+      ]
+    }
+  ]
+}

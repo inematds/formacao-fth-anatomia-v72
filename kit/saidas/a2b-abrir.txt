@@ -1,0 +1,7 @@
+modelo: g1_29dof_rev_1_0 scene · arquivo unitree_g1/scene.xml
+nq=36 nv=35 nu=29
+juntas: 30 (1 base flutuante + 29 articuladas) · corpos: 30 · sensores: 4
+massa total do modelo: 33.3 kg · passo de simulação: 2 ms
+poses salvas (keyframes): stand
+altura da base na pose inicial: 0.79 m
+saída: 0

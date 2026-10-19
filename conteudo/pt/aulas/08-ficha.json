@@ -1,0 +1,389 @@
+{
+  "slug": "ficha",
+  "num": 8,
+  "menu": "Ficha",
+  "titulo": "A ficha técnica do seu humanoide",
+  "titulo_curto": "A sua ficha técnica",
+  "minutos": 15,
+  "lead": "Ficha de fabricante, arquivo de simulação e medida não dizem a mesma coisa, e é na diferença que mora o sim-to-real. Nesta aula você compara dois humanoides do Menagerie por script, monta uma ficha que separa as três fontes e sai com o plano de estudo da formação.",
+  "objetivo": "comparar dois humanoides do Menagerie por script e montar a sua ficha técnica separando fabricante, arquivo e medida.",
+  "competencias": [
+    "comparar-modelos-por-script",
+    "separar-fabricante-arquivo-medida",
+    "planejar-a-formacao"
+  ],
+  "aprende": [
+    {
+      "icone": "lista",
+      "t": "O comparar.py: 7 itens lidos do arquivo, lado a lado"
+    },
+    {
+      "icone": "arquivo",
+      "t": "A ficha em três colunas: fabricante, arquivo, medida"
+    },
+    {
+      "icone": "robo",
+      "t": "Que robô um laboratório compraria hoje, e por quê"
+    },
+    {
+      "icone": "calendario",
+      "t": "O plano com datas para os próximos cursos da FTH"
+    }
+  ],
+  "hero_alt": "Duas maquetes de robôs humanoides de alturas diferentes lado a lado numa mesa escura, com paquímetro e caderno aberto.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "Três fontes, uma ficha",
+      "sub": "Cada linha da ficha diz de onde veio. Clique em cada bloco.",
+      "nos": [
+        {
+          "icone": "megafone",
+          "titulo": "Fabricante",
+          "sub": "ficha oficial",
+          "itens": [
+            {
+              "icone": "calendario",
+              "t": "com URL e data"
+            }
+          ],
+          "detalhe": "O que a empresa publica: graus de liberdade, massa, bateria, computação, preço. Vale com versão, fonte e data; ela muda e às vezes omite (o G1 não publica Wh nem torque por junta)."
+        },
+        {
+          "icone": "arquivo",
+          "titulo": "Arquivo",
+          "sub": "MJCF",
+          "itens": [
+            {
+              "icone": "git",
+              "t": "pasta + commit"
+            }
+          ],
+          "detalhe": "O que o modelo de simulação declara: nu, massa, limites, torque máximo, sensores. É uma versão específica do robô, aproximada. Cite a pasta e o commit do Menagerie."
+        },
+        {
+          "icone": "grafico",
+          "titulo": "Medida",
+          "sub": "seus scripts",
+          "forte": true,
+          "itens": [
+            {
+              "icone": "terminal",
+              "t": "torque, contatos, empurrão"
+            }
+          ],
+          "detalhe": "O que você mediu no modelo: 31 N·m no joelho agachado, 327 N nos pés, queda a partir de 35 N. Medida de simulação vale para o modelo; no robô real, só depois de identificar o sistema (curso 2)."
+        },
+        {
+          "icone": "alvo",
+          "titulo": "Diferença",
+          "sub": "o que anotar",
+          "itens": [
+            {
+              "icone": "lupa",
+              "t": "massa, GDL, torque"
+            }
+          ],
+          "detalhe": "33,3 kg no arquivo × ~35 kg na ficha; 29 graus de liberdade no modelo × 23 no G1 base; 139 N·m no joelho do modelo × 90/120 N·m relatados. Cada diferença é um ponto onde a política treinada em simulação pode falhar no robô."
+        }
+      ],
+      "legenda": "A coluna \"diferença\" é a lista de tarefas do sim-to-real."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "Que robô um laboratório consideraria em out/2026",
+      "sub": "Com preço só quando há fonte, e sempre variando por versão e revenda. Clique em cada um.",
+      "passos": [
+        {
+          "titulo": "Unitree G1 EDU",
+          "sub": "a referência",
+          "texto": [
+            "É a plataforma que aparece em quase tudo: Menagerie (29 graus de liberdade), unitree_rl_lab, mjlab, retargeting (GMR), SONIC com pesos abertos e LeRobot.",
+            "O base (US$ 13,5 mil) não tem SDK; o EDU, que tem, é sob consulta."
+          ]
+        },
+        {
+          "titulo": "Unitree R1",
+          "sub": "o mais barato",
+          "texto": [
+            "1,23 m, 27–29 kg, de 20 a 40 graus de liberdade conforme a versão; US$ 4.900 a 5.900 na loja oficial (EDU sob consulta).",
+            "Menos gente publica controlador para ele do que para o G1: menos código pronto."
+          ]
+        },
+        {
+          "titulo": "Booster K1",
+          "sub": "pequeno, educação",
+          "texto": [
+            "95 cm, 19,5 kg, 22 graus de liberdade, 117 TOPS, 1 h 10 min andando a 1,1 m/s (ficha oficial). No programa da RoboCup 2026, US$ 14.999 o preço público.",
+            "O T1, da mesma empresa, tem modelo no Menagerie (booster_t1, 23 atuadores)."
+          ]
+        },
+        {
+          "titulo": "Abertos",
+          "sub": "monte você",
+          "texto": [
+            "Berkeley Humanoid Lite: impresso em 3D, menos de US$ 5 mil em peças (relatado), com treino em Isaac Lab e validação sim2sim no repositório. ToddlerBot: 30 graus de liberdade, Jetson Orin NX, lista de peças pública.",
+            "Ambos pedem bancada e tempo de montagem; o modelo de simulação vem junto."
+          ]
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "Comparar por script e preencher a ficha",
+      "sub": "O comparar.py imprime 7 itens dos dois arquivos. O modelo de ficha tem as três colunas; os colchetes são o que você preenche.",
+      "blocos": [
+        {
+          "rot": "Terminal · G1 × H1",
+          "icone": "terminal",
+          "conteudo": "F=${FTH:-$HOME/fth}; cd $F/anatomia && . $F/.venv/bin/activate\npython3 kit/comparar.py unitree_g1/scene.xml unitree_h1/scene.xml; echo \"saída: $?\""
+        },
+        {
+          "rot": "Arquivo · kit/ficha-modelo.md",
+          "icone": "arquivo",
+          "conteudo": "# Ficha técnica — [robô] (versão [base/EDU/…])\n\nData: [DD/MM/AAAA] · Modelo de simulação: [pasta do Menagerie] @ [commit]\n\n| item | fabricante (fonte, data) | arquivo MJCF | medido no curso | diferença |\n|---|---|---|---|---|\n| graus de liberdade | [n] ([URL], [data]) | nu = [n] | — | [versão diferente?] |\n| massa (kg) | [n] | [n] | — | [%] |\n| altura do CoM em pé (m) | — | [n] | — | — |\n| maior torque (N·m) | [n ou \"não publicado\"] | [n] ([junta]) | agachado 90°: [n] | [%] |\n| sensores | [lista da ficha] | [n] no arquivo | + [acrescentados] | [o que falta] |\n| bateria | [mAh, S, h] | — | [Wh, conta derivada] | — |\n| computação | [CPU / Orin / Thor] | — | — | — |\n| equilíbrio sem controlador | — | — | fica com [n] N · cai com [n] N (0,2 s) | — |\n| estágio | [demo/piloto/produção] ([URL], [data]) | — | — | — |"
+        }
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {
+            "rot": "Saída capturada (19/10/2026)",
+            "html": "<pre>item                               unitree_g1           unitree_h1\nGDL acionados (nu)                         29                   19\nmassa do modelo (kg)                     33.3                 51.4\naltura do CoM (m)                        0.69                 0.95\nmaior torque (N·m)                        139                  300\njunta do maior torque        right_knee_joint           right_knee\nsensores no arquivo                         4                    0\npose inicial                            stand                 home\nFICHA: 7 itens comparados\nsaída: 0</pre><p>O H1 é mais pesado e mais alto (CoM a 0,95 m) e tem joelho de 300 N·m no modelo, mas menos graus de liberdade e nenhum sensor declarado no arquivo.</p>"
+          },
+          {
+            "rot": "Erro comum: pasta fora do sparse-checkout",
+            "html": "<pre>ERRO: não achei apptronik_apollo/scene.xml (nem em ~/fth/mujoco_menagerie). Rode a preparação da aula 2.\nsaída: 1</pre><p>A bancada baixou só 4 humanoides. Para comparar outro, acrescente a pasta: <code>git -C ~/fth/mujoco_menagerie sparse-checkout add apptronik_apollo</code>, e rode de novo.</p>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "mapa",
+      "titulo": "O que você montou neste curso",
+      "sub": "Quatro entregas principais. Clique num degrau para ver o \"pronto quando\".",
+      "degraus": [
+        {
+          "aula": "cenario",
+          "icone": "lista",
+          "quando": "Aula 1",
+          "titulo": "Tabela",
+          "sub": "6 robôs",
+          "saida": "Estágio, fonte e data para 6 humanoides.",
+          "passo": "A tabela que separa demo, piloto e produção. Atualize a cada notícia: a data é o que mantém a tabela honesta."
+        },
+        {
+          "aula": "mjcf",
+          "icone": "terminal",
+          "quando": "Aula 2",
+          "titulo": "Bancada",
+          "sub": "MuJoCo + Menagerie",
+          "saida": "~/fth com versões fixadas.",
+          "passo": "A bancada que os cursos 1 a 4 reaproveitam: venv, MuJoCo 3.16.0 e Menagerie no commit testado."
+        },
+        {
+          "aula": "atuadores",
+          "icone": "grafico",
+          "quando": "Aulas 3–5",
+          "titulo": "Corpo",
+          "sub": "juntas, torque",
+          "saida": "Juntas, torque e sensores lidos do arquivo.",
+          "passo": "Árvore de juntas, torque medido no agachamento e sensores conferidos contra o peso: o corpo descrito por números seus."
+        },
+        {
+          "aula": "equilibrio",
+          "icone": "alvo",
+          "quando": "Aulas 6–8",
+          "titulo": "Limites",
+          "sub": "equilíbrio, ficha",
+          "saida": "Limite de empurrão e ficha em três colunas.",
+          "passo": "O limite do corpo sem controlador, a conta de energia e a ficha técnica: o ponto de partida do curso de locomoção."
+        }
+      ],
+      "resultado": {
+        "titulo": "Ao final do curso",
+        "texto": "Bancada pronta, corpo lido do arquivo e ficha com as diferenças anotadas.",
+        "total": "8 aulas"
+      },
+      "rolagem_fim": {
+        "titulo": "O curso inteiro",
+        "texto": "Quatro entregas em sequência. A bancada da aula 2 é pré-requisito de todas as práticas dos próximos cursos da FTH."
+      },
+      "legenda": "A ordem importa: sem a bancada, nada das aulas 3 a 8 roda."
+    },
+    {
+      "tipo": "gerador",
+      "titulo": "Gere o seu plano com datas",
+      "sub": "Escolha a data de início e quanto tempo você tem por semana. O plano lista as práticas de cada aula.",
+      "curso": "FTH 0 · O corpo do humanoide",
+      "horas_padrao": 3,
+      "degraus": [
+        {
+          "titulo": "Aula 1 · Demo, piloto e produção",
+          "aula": "cenario"
+        },
+        {
+          "titulo": "Aula 2 · Abrir o G1 no MuJoCo",
+          "aula": "mjcf"
+        },
+        {
+          "titulo": "Aula 3 · Juntas e limites",
+          "aula": "juntas"
+        },
+        {
+          "titulo": "Aula 4 · Atuadores e torque",
+          "aula": "atuadores"
+        },
+        {
+          "titulo": "Aula 5 · IMU, força e tato",
+          "aula": "sensores"
+        },
+        {
+          "titulo": "Aula 6 · CoM e polígono de apoio",
+          "aula": "equilibrio"
+        },
+        {
+          "titulo": "Aula 7 · Computação e bateria",
+          "aula": "computacao-energia"
+        },
+        {
+          "titulo": "Aula 8 · A sua ficha técnica",
+          "aula": "ficha"
+        }
+      ],
+      "txt": {
+        "titulo": "Plano — FTH 0 · O corpo do humanoide",
+        "inicio": "Início",
+        "ritmo": "Ritmo",
+        "termino": "Término previsto",
+        "ate": "até",
+        "pronto": "pronto quando",
+        "semanas": "semanas",
+        "travou": "## O que travou e a regra que criei",
+        "h": "h por semana",
+        "exs": "exercícios"
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Prática",
+      "sub": "Comparar, preencher e decidir.",
+      "exercicios": [
+        {
+          "id": "e1",
+          "titulo": "E1 · G1 × H1",
+          "min": "3 min",
+          "texto": "Rode o bloco de comparação e explique em uma frase por que o H1 tem CoM mais alto.",
+          "pronto": "<code>python3 kit/comparar.py unitree_g1/scene.xml unitree_h1/scene.xml; echo \"saída: $?\"</code> → <code>FICHA: 7 itens comparados</code> e <code>saída: 0</code>."
+        },
+        {
+          "id": "e2",
+          "titulo": "E2 · A ficha do G1",
+          "min": "20 min",
+          "texto": "Copie kit/ficha-modelo.md para ~/fth/ficha-g1.md e preencha as três colunas com o que você leu e mediu nas aulas 1 a 7.",
+          "pronto": "<code>grep -c \"\\[\" ~/fth/ficha-g1.md</code> → <code>0</code> (nenhum colchete por preencher)."
+        },
+        {
+          "id": "e3",
+          "titulo": "E3 · Um terceiro robô",
+          "min": "10 min",
+          "texto": "Acrescente outra pasta ao sparse-checkout (por exemplo apptronik_apollo) e compare com o G1. Atenção: o PAL TALOS não tem scene.xml; use pal_talos/scene_position.xml.",
+          "pronto": "<code>python3 kit/comparar.py unitree_g1/scene.xml [pasta]/scene.xml | tail -1</code> → <code>FICHA: 7 itens comparados</code>."
+        }
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Teste da aula",
+      "sub": "A explicação aparece depois da sua resposta.",
+      "perguntas": [
+        {
+          "p": "Para que serve a coluna \"diferença\" da ficha?",
+          "opcoes": [
+            "Listar onde modelo e robô divergem: a lista de tarefas do sim-to-real.",
+            "Para escolher qual das três fontes apagar no final da ficha.",
+            "Para provar que o fabricante publica números falsos na ficha.",
+            "Para nada, porque o arquivo MJCF sozinho já basta para fazer o sim-to-real."
+          ],
+          "certa": 0,
+          "explica": "Massa, graus de liberdade e torque diferentes entre arquivo e robô são exatamente o que faz a política treinada em simulação falhar no chão. O curso 2 ataca essa lista.",
+          "ref": "diagrama",
+          "cert": true
+        },
+        {
+          "p": "Um laboratório quer o humanoide com mais código aberto pronto para RL e retargeting. O que a pesquisa da formação aponta?",
+          "opcoes": [
+            "O R1, porque é o mais barato da loja da Unitree em 2026.",
+            "Qualquer um deles, porque todos têm o mesmo suporte em código aberto hoje.",
+            "O G1 EDU: está no Menagerie, unitree_rl_lab, mjlab, GMR e SONIC.",
+            "O Atlas, por ser o humanoide de produto lançado na CES 2026."
+          ],
+          "certa": 2,
+          "explica": "O G1 virou a plataforma de referência de fato. Preço baixo (R1) não compensa a falta de código pronto; o Atlas tem o lote de 2026 comprometido com Hyundai e Google DeepMind (relatado).",
+          "ref": "passos"
+        },
+        {
+          "p": "O comparar.py diz 139 N·m de torque máximo no G1. Como pôr isso na ficha?",
+          "opcoes": [
+            "Na coluna do fabricante, como especificação oficial do G1.",
+            "Na coluna do arquivo, citando a pasta e o commit do Menagerie.",
+            "Na coluna de medida, como torque que você mediu no robô.",
+            "Em lugar nenhum: torque máximo não entra em ficha técnica."
+          ],
+          "certa": 1,
+          "explica": "139 N·m é o actuatorfrcrange do modelo. Medido foi o agachamento (31 N·m); do fabricante, a Unitree não publica torque por junta na página lida.",
+          "ref": "codigo"
+        }
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "Em três frases",
+      "itens": [
+        {
+          "t": "Três fontes",
+          "texto": "Fabricante, arquivo e medida, cada linha com a sua origem."
+        },
+        {
+          "t": "Diferença",
+          "texto": "O que diverge entre modelo e robô é o trabalho do sim-to-real."
+        },
+        {
+          "t": "Próximo",
+          "texto": "Com a bancada e a ficha prontas, o curso 1 ensina o G1 a andar."
+        }
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Para ir além",
+      "links": [
+        {
+          "t": "Próximo curso da FTH: Ensinar a andar (locomoção por RL)",
+          "href": "https://inematds.github.io/formacao-fth-locomocao-v72/",
+          "icone": "robo"
+        },
+        {
+          "t": "Berkeley Humanoid Lite (repositório)",
+          "href": "https://github.com/HybridRobotics/Berkeley-Humanoid-Lite",
+          "icone": "git"
+        },
+        {
+          "t": "ToddlerBot (Stanford)",
+          "href": "https://toddlerbot.github.io/",
+          "icone": "robo"
+        },
+        {
+          "t": "SONIC: pesos abertos para o G1",
+          "href": "https://huggingface.co/nvidia/GEAR-SONIC",
+          "icone": "cerebro"
+        },
+        {
+          "t": "VLA: robôs que veem, entendem e agem",
+          "href": "https://inematds.github.io/vla-v72/",
+          "icone": "cerebro"
+        }
+      ]
+    }
+  ]
+}

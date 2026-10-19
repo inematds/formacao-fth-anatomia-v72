@@ -1,0 +1,5 @@
+joelho 0°: joelhos: esquerdo 0 N·m · direito 0 N·m 
+joelho 30°: joelhos: esquerdo 11 N·m · direito 11 N·m 
+joelho 60°: joelhos: esquerdo 21 N·m · direito 21 N·m 
+joelho 90°: joelhos: esquerdo 31 N·m · direito 31 N·m 
+joelho 120°: ATENÇÃO: o robô caiu. joelhos: esquerdo 2 N·m · direito 2 N·m 

@@ -1,0 +1,9 @@
+  Unitree G1             produção  19/10/2026
+  Unitree R1             produção  19/10/2026
+  Booster K1             produção  19/10/2026
+  Figure 03              piloto    27/01/2026
+  Boston Dynamics Atlas  piloto    01/2026
+  1X NEO                 demo      04/2026
+estágios: demo 1 · piloto 2 · produção 3
+6 robôs, 6 com fonte e data
+saída: 0

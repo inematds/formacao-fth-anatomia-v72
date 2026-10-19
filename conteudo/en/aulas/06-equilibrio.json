@@ -1,0 +1,273 @@
+{
+  "slug": "equilibrio",
+  "num": 6,
+  "menu": "Balance",
+  "titulo": "Balance: center of mass and support polygon",
+  "titulo_curto": "CoM and support polygon",
+  "minutos": 15,
+  "lead": "A standing humanoid is an inverted pendulum on two small feet. In this lesson you calculate the G1's center of mass, support polygon, and center of pressure from the model itself, push the robot with different forces, and separate three things that usually get mixed up: leaving the support, swaying, and falling.",
+  "objetivo": "push the G1 and say, from the simulation, when the center of mass leaves the support polygon and whether the robot falls.",
+  "competencias": [
+    "calcular-com-e-poligono",
+    "ler-cop-zmp",
+    "distinguir-sair-do-apoio-de-cair"
+  ],
+  "aprende": [
+    {
+      "icone": "alvo",
+      "t": "Center of mass, support polygon, and center of pressure (ZMP on flat ground)"
+    },
+    {
+      "icone": "grafico",
+      "t": "CoM margin in centimeters, every 0.25 s"
+    },
+    {
+      "icone": "camadas",
+      "t": "Why 25 N leaves the support and comes back, and 35 N knocks it down"
+    },
+    {
+      "icone": "cerebro",
+      "t": "Where classical control (ZMP) and RL come in"
+    }
+  ],
+  "hero_alt": "Standing humanoid robot in a dark lab being pushed by a padded pole, with a safety cable attached to the gantry.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "Four quantities, one question: does it fall?",
+      "sub": "Click each block.",
+      "nos": [
+        {
+          "icone": "alvo",
+          "titulo": "CoM",
+          "sub": "center of mass",
+          "itens": [
+            {
+              "icone": "lista",
+              "t": "d.subtree_com of the pelvis"
+            }
+          ],
+          "detalhe": "The average of all body positions, weighted by mass. MuJoCo computes it in d.subtree_com; the pelvis one is the whole robot's. At rest, the G1's sits 0.69 m above the floor (lesson 8)."
+        },
+        {
+          "icone": "camadas",
+          "titulo": "Support",
+          "sub": "polygon",
+          "itens": [
+            {
+              "icone": "lista",
+              "t": "envelope of the contacts"
+            }
+          ],
+          "detalhe": "The smallest convex polygon that contains every point of the feet touching the ground with force. With both feet on the ground, it is the area between them; with one foot on its toes, it shrinks to a line."
+        },
+        {
+          "icone": "grafico",
+          "titulo": "CoP / ZMP",
+          "sub": "where the ground pushes",
+          "forte": true,
+          "itens": [
+            {
+              "icone": "lista",
+              "t": "average of the contacts, weighted by force"
+            }
+          ],
+          "detalhe": "The center of pressure is the midpoint of the contacts, weighted by the normal force. On flat ground, it coincides with the ZMP of classical controllers. It never leaves the polygon: when it touches the edge, the foot starts to rotate."
+        },
+        {
+          "icone": "x",
+          "titulo": "Fall",
+          "sub": "speed",
+          "itens": [
+            {
+              "icone": "lista",
+              "t": "pelvis below 0.5 m"
+            }
+          ],
+          "detalhe": "CoM outside the support for a moment does not knock it over: the robot rotates over the edge of the foot and can come back. What knocks it over is rotating too fast to come back. The script calls it a fall when the pelvis is below 0.5 m at t = 3 s."
+        }
+      ],
+      "legenda": "Standing still, it is enough for the CoM to be inside the support. In motion, the CoP and the speed are what matter."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "What the push sweep shows",
+      "sub": "A 0.2 s forward push on the torso, with the G1 just holding the pose. Click each band.",
+      "passos": [
+        {
+          "titulo": "Up to 15 N",
+          "sub": "stays up",
+          "texto": [
+            "The CoM never leaves the polygon: the margin never goes negative at any moment.",
+            "That is what any rigid pose can handle: the impulse is small (3 N·s)."
+          ]
+        },
+        {
+          "titulo": "20 to 30 N",
+          "sub": "leaves and returns",
+          "texto": [
+            "The robot rises onto its toes, the polygon becomes a line, and the CoM is outside it for a moment. Even so, it comes back and ends up standing.",
+            "Leaving the support is not falling: it is starting to rotate."
+          ]
+        },
+        {
+          "titulo": "35 to 40 N",
+          "sub": "falls",
+          "texto": [
+            "At 40 N the CoM leaves at t = 0.73 s; the robot sways forward, comes back, overshoots, and falls backward, without moving a foot.",
+            "A balance controller would take a step or move the hip and ankle. Here there is no controller: it is the limit of the body alone."
+          ]
+        },
+        {
+          "titulo": "Classical × RL",
+          "sub": "who corrects",
+          "texto": [
+            "Classical controllers plan the ZMP to stay inside the support (centroidal models, MPC). Humanoid locomotion in research today is trained with RL in thousands of parallel simulations (course 1).",
+            "The training's research found, as of 10/2026, no independent comparison saying which one is better: the two coexist."
+          ]
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "Pushing the G1",
+      "sub": "The equilibrio.py applies the force on the torso at t = 0.5 s and prints, every 0.25 s, the CoM margin (positive = inside the support), the CoP forward, and the pelvis height.",
+      "blocos": [
+        {
+          "rot": "Terminal · 40 N push",
+          "icone": "terminal",
+          "conteudo": "F=${FTH:-$HOME/fth}; cd $F/anatomia && . $F/.venv/bin/activate\npython3 kit/equilibrio.py --empurrao 40"
+        },
+        {
+          "rot": "Terminal · from 10 N to 40 N",
+          "icone": "terminal",
+          "conteudo": "F=${FTH:-$HOME/fth}; cd $F/anatomia && . $F/.venv/bin/activate\nfor n in 10 15 20 25 30 35 40; do\n  echo \"$n N → $(python3 kit/equilibrio.py --empurrao $n | tail -2 | cut -d'(' -f1 | tr '\\n' ' ')\"\ndone"
+        }
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {
+            "rot": "Captured output (10/19/2026)",
+            "html": "<pre>empurrão de 40 N por 0.2 s no tronco (t = 0.5 s) · impulso 8 N·s\nt (s)  margem do CoM (cm)  CoP x (cm)  pelve z (m)\n 0.00                 5.3         0.1         0.79\n 0.25                 5.3         0.4         0.79\n 0.50                 5.3         0.3         0.79\n 0.75                -8.1        12.0         0.79\n 1.00                -5.8        12.1         0.79\n 1.25                -8.1        12.2         0.79\n 1.50                -3.4        -4.8         0.79\n 1.75                -1.2        -4.8         0.79\n 2.00                -6.7        -4.8         0.79\n 2.25               -17.4        -4.7         0.76\n 2.50               -39.6        -4.5         0.64\n 2.75               -68.4        -8.4         0.15\n 3.00               -68.9       -11.4         0.06\nCoM dentro do apoio: não · saiu em t = 0.73 s\nqueda: sim (pelve a 0.06 m em t = 3 s)</pre><p>The CoP goes to 12 cm (toes), then to -4.8 cm (heel); the pelvis only drops after 2.25 s, when the robot falls backward.</p>"
+          },
+          {
+            "rot": "Common mistake: CoM outside = fall",
+            "html": "<pre>10 N → CoM dentro do apoio: sim  queda: não  \n15 N → CoM dentro do apoio: sim  queda: não  \n20 N → CoM dentro do apoio: não · saiu em t = 1.40 s queda: não  \n25 N → CoM dentro do apoio: não · saiu em t = 1.35 s queda: não  \n30 N → CoM dentro do apoio: não · saiu em t = 0.81 s queda: não  \n35 N → CoM dentro do apoio: não · saiu em t = 0.76 s queda: sim  \n40 N → CoM dentro do apoio: não · saiu em t = 0.73 s queda: sim  </pre><p>From 20 to 30 N the CoM leaves the support and the robot does not fall. Anyone who measures balance only by the CoM position gets it wrong from 20 to 30 N; you also need to look at the speed and what happens afterward.</p>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Practice",
+      "sub": "Find the limit of the body without a controller.",
+      "exercicios": [
+        {
+          "id": "e1",
+          "titulo": "E1 · A push that knocks it over",
+          "min": "3 min",
+          "texto": "Run the 40 N block and describe the motion by reading the CoP and pelvis columns.",
+          "pronto": "<code>python3 kit/equilibrio.py --empurrao 40</code> ends with <code>CoM dentro do apoio: não · saiu em t = 0.73 s</code> and <code>queda: sim</code>."
+        },
+        {
+          "id": "e2",
+          "titulo": "E2 · A push it can handle",
+          "min": "3 min",
+          "texto": "Repeat with 15 N.",
+          "pronto": "<code>python3 kit/equilibrio.py --empurrao 15 | tail -2</code> → <code>CoM dentro do apoio: sim (o tempo todo)</code> and <code>queda: não</code>."
+        },
+        {
+          "id": "e3",
+          "titulo": "E3 · Impulse, not force",
+          "min": "5 min",
+          "texto": "Run 40 N for 0.1 s and 80 N for 0.1 s. Compare with 40 N for 0.2 s: what matters, the force or the product of force × time?",
+          "pronto": "<code>--empurrao 40 --duracao 0.1</code> ends with <code>queda: não</code> and <code>--empurrao 80 --duracao 0.1</code> with <code>queda: sim</code>; you wrote down the three impulses (4, 8 and 8 N·s)."
+        }
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Lesson quiz",
+      "sub": "The explanation appears after you answer.",
+      "perguntas": [
+        {
+          "p": "With 25 N the CoM left the support polygon, but the robot ended up standing. How do you explain that?",
+          "opcoes": [
+            "The script got the support polygon calculation wrong in this case.",
+            "It rotated over the edge of the foot at low speed and came back.",
+            "MuJoCo stops computing the CoM after the first second.",
+            "The support polygon grew and reached the CoM again."
+          ],
+          "certa": 1,
+          "explica": "Outside the support, the body starts to rotate over the edge. If the speed is low, gravity brings it back. Leaving the support is not falling.",
+          "ref": "passos",
+          "cert": true
+        },
+        {
+          "p": "On flat ground, what is the ZMP in classical controllers?",
+          "opcoes": [
+            "The same point as the center of mass of the whole robot.",
+            "The highest point of the robot, which on the G1 is the head.",
+            "The center of pressure: the average of the contacts weighted by force.",
+            "The joint that produces the most torque during the push on the torso."
+          ],
+          "certa": 2,
+          "explica": "On flat ground, ZMP and center of pressure coincide. The CoM is something else: it can leave the polygon; the CoP cannot.",
+          "ref": "diagrama"
+        },
+        {
+          "p": "40 N for 0.1 s does not knock it over; 40 N for 0.2 s does. What does this teach?",
+          "opcoes": [
+            "That the duration of the push changes nothing in the result.",
+            "That MuJoCo becomes unstable when the push is too short and too strong.",
+            "That 40 N is the exact limit the real G1 can take while standing.",
+            "That the impulse (force × time) is what counts for the fall."
+          ],
+          "certa": 3,
+          "explica": "4 N·s does not knock it over, 8 N·s does, with 40 N or with 80 N. And none of this is the limit of the real G1: there is no balance controller here.",
+          "ref": "codigo"
+        }
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "In three sentences",
+      "itens": [
+        {
+          "t": "Quantities",
+          "texto": "CoM, support polygon and CoP come out of the model at every step."
+        },
+        {
+          "t": "Dynamics",
+          "texto": "Leaving the support is rotating; falling is rotating too fast to come back."
+        },
+        {
+          "t": "Limit",
+          "texto": "Without a controller, the G1 takes 15 N for 0.2 s and falls with 35 N."
+        }
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "To go further",
+      "links": [
+        {
+          "t": "MuJoCo API: mj_contactForce and subtree_com",
+          "href": "https://mujoco.readthedocs.io/en/stable/APIreference/APIfunctions.html",
+          "icone": "terminal"
+        },
+        {
+          "t": "mjlab: G1 locomotion by RL (course 1)",
+          "href": "https://github.com/mujocolab/mjlab",
+          "icone": "git"
+        },
+        {
+          "t": "unitree_rl_lab: G1 RL tasks",
+          "href": "https://github.com/unitreerobotics/unitree_rl_lab",
+          "icone": "git"
+        }
+      ]
+    }
+  ]
+}

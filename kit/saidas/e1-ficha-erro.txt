@@ -1,0 +1,4 @@
+  Tesla Optimus V3       falta: estágio, fonte, data
+estágios: demo 0 · piloto 0 · produção 0
+1 robôs, 0 com fonte e data
+saída: 1

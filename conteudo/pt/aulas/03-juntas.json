@@ -1,0 +1,289 @@
+{
+  "slug": "juntas",
+  "num": 3,
+  "menu": "Juntas",
+  "titulo": "Graus de liberdade, juntas e limites",
+  "titulo_curto": "Juntas e limites",
+  "minutos": 15,
+  "lead": "\"23 a 43 graus de liberdade\" é propaganda; a árvore de juntas do arquivo é o corpo que o seu controlador vai comandar. Nesta aula você lista as 29 juntas do G1 com limites em graus e torque máximo, entende por que a perna tem seis e confere que o número bate com os atuadores.",
+  "objetivo": "listar as juntas do G1 com limites em graus e torque máximo e conferir que o número de juntas articuladas bate com nu.",
+  "competencias": [
+    "ler-a-arvore-de-juntas",
+    "converter-limites",
+    "contar-graus-de-liberdade"
+  ],
+  "aprende": [
+    {
+      "icone": "camadas",
+      "t": "A árvore de corpos: pelve, pernas, cintura e braços"
+    },
+    {
+      "icone": "lista",
+      "t": "Por que a perna tem 6 juntas e em que ordem"
+    },
+    {
+      "icone": "lupa",
+      "t": "Limite em radiano no arquivo, em grau na sua cabeça"
+    },
+    {
+      "icone": "check",
+      "t": "Graus de liberdade do arquivo × da ficha do fabricante"
+    }
+  ],
+  "hero_alt": "Perna de robô humanoide industrial sobre bancada, com quadril, joelho e tornozelo à mostra e um transferidor de metal ao lado.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "As 29 juntas do G1 do Menagerie",
+      "sub": "Cada bloco é um ramo da árvore que começa na pelve. Clique para ver as juntas.",
+      "nos": [
+        {
+          "icone": "alvo",
+          "titulo": "Pelve",
+          "sub": "base livre",
+          "itens": [
+            {
+              "icone": "seta",
+              "t": "7 posições, 6 velocidades",
+              "sub": "sem motor"
+            }
+          ],
+          "detalhe": "A raiz da árvore. Não tem motor: o robô só muda de lugar empurrando o chão. É por isso que andar é difícil."
+        },
+        {
+          "icone": "robo",
+          "titulo": "Pernas",
+          "sub": "6 + 6",
+          "forte": true,
+          "itens": [
+            {
+              "icone": "lista",
+              "t": "quadril: pitch, roll, yaw"
+            },
+            {
+              "icone": "lista",
+              "t": "joelho: pitch"
+            },
+            {
+              "icone": "lista",
+              "t": "tornozelo: pitch, roll"
+            }
+          ],
+          "detalhe": "Seis juntas por perna, a mesma conta que a Unitree publica para o G1. Três no quadril (para frente, para o lado e girar), uma no joelho e duas no tornozelo. Com seis, o pé consegue qualquer posição e orientação dentro do alcance."
+        },
+        {
+          "icone": "camadas",
+          "titulo": "Cintura",
+          "sub": "3",
+          "itens": [
+            {
+              "icone": "lista",
+              "t": "yaw, roll, pitch"
+            }
+          ],
+          "detalhe": "O modelo do Menagerie tem 3 juntas na cintura. A ficha da Unitree diz 1 na cintura e mais 2 opcionais: é a diferença entre versões, não um erro."
+        },
+        {
+          "icone": "robo",
+          "titulo": "Braços",
+          "sub": "7 + 7",
+          "itens": [
+            {
+              "icone": "lista",
+              "t": "ombro: pitch, roll, yaw"
+            },
+            {
+              "icone": "lista",
+              "t": "cotovelo"
+            },
+            {
+              "icone": "lista",
+              "t": "punho: roll, pitch, yaw"
+            }
+          ],
+          "detalhe": "Sete por braço no modelo; a ficha da Unitree fala em 5 no braço da versão base. Os punhos do modelo aguentam só 5 N·m: servem para orientar a mão, não para carregar peso."
+        }
+      ],
+      "legenda": "12 nas pernas + 3 na cintura + 14 nos braços = 29 = nu."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "Como ler uma linha da árvore",
+      "sub": "Clique em cada etapa.",
+      "passos": [
+        {
+          "titulo": "Nome",
+          "sub": "lado, parte, eixo",
+          "texto": [
+            "left_hip_roll_joint: perna esquerda, quadril, rotação em roll (inclinar para o lado). Pitch dobra para frente e para trás; yaw gira em torno do eixo vertical.",
+            "A indentação da saída mostra quem está pendurado em quem: o tornozelo depende do joelho, que depende do quadril."
+          ]
+        },
+        {
+          "titulo": "Limite",
+          "sub": "radiano → grau",
+          "texto": [
+            "O arquivo guarda range=\"-0.087267 2.8798\" em radianos; o script converte: -5° a 165° no joelho.",
+            "O roll do quadril é assimétrico e espelhado: esquerdo de -30° a 170°, direito de -170° a 30°. A perna abre muito para fora e pouco para dentro, onde está a outra perna."
+          ]
+        },
+        {
+          "titulo": "Torque máximo",
+          "sub": "actuatorfrcrange",
+          "texto": [
+            "O atributo actuatorfrcrange da junta corta o que o motor pode fazer: 139 N·m no joelho, 88 no pitch do quadril, 50 no tornozelo, 25 no ombro, 5 no punho.",
+            "É o limite do modelo. Revendas citam 90 N·m (base) e 120 N·m (EDU) para o joelho do G1 real (relatado): mais um ponto em que arquivo e robô podem divergir."
+          ]
+        },
+        {
+          "titulo": "Conferir",
+          "sub": "juntas = nu",
+          "texto": [
+            "O total de juntas (njnt=30) inclui a base livre. O número que interessa ao controlador é o de juntas articuladas, que tem de bater com o de atuadores.",
+            "Se não bater, sobrou junta passiva (sem motor) ou motor fora de junta: os dois mudam o seu controlador."
+          ],
+          "exemplo": {
+            "rot": "Linha final do script",
+            "texto": "RESUMO: 29 juntas articuladas + 1 base flutuante · nu=29 · bate com nu: sim"
+          }
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "A árvore do G1",
+      "sub": "O juntas.py lê tudo do MJCF e imprime uma linha por junta.",
+      "blocos": [
+        {
+          "rot": "Terminal · listar as juntas",
+          "icone": "terminal",
+          "conteudo": "F=${FTH:-$HOME/fth}; cd $F/anatomia && . $F/.venv/bin/activate\npython3 kit/juntas.py unitree_g1/scene.xml; echo \"saída: $?\""
+        }
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {
+            "rot": "Saída capturada (19/10/2026)",
+            "html": "<pre>unitree_g1/scene.xml · 29 juntas articuladas\njunta                                        mín°   máx°  torque máx (N·m)\n  left_hip_pitch_joint                       -145    165                88\n    left_hip_roll_joint                       -30    170               139\n      left_hip_yaw_joint                     -158    158                88\n        left_knee_joint                        -5    165               139\n          left_ankle_pitch_joint              -50     30                50\n            left_ankle_roll_joint             -15     15                50\n  right_hip_pitch_joint                      -145    165                88\n    right_hip_roll_joint                     -170     30               139\n      right_hip_yaw_joint                    -158    158                88\n        right_knee_joint                       -5    165               139\n          right_ankle_pitch_joint             -50     30                50\n            right_ankle_roll_joint            -15     15                50\n  waist_yaw_joint                            -150    150                88\n    waist_roll_joint                          -30     30                50\n      waist_pitch_joint                       -30     30                50\n        left_shoulder_pitch_joint            -177    153                25\n          left_shoulder_roll_joint            -91    129                25\n            left_shoulder_yaw_joint          -150    150                25\n              left_elbow_joint                -60    120                25\n                left_wrist_roll_joint        -113    113                25\n                  left_wrist_pitch_joint      -93     93                 5\n                    left_wrist_yaw_joint      -93     93                 5\n        right_shoulder_pitch_joint           -177    153                25\n          right_shoulder_roll_joint          -129     91                25\n            right_shoulder_yaw_joint         -150    150                25\n              right_elbow_joint               -60    120                25\n                right_wrist_roll_joint       -113    113                25\n                  right_wrist_pitch_joint     -93     93                 5\n                    right_wrist_yaw_joint     -93     93                 5\nRESUMO: 29 juntas articuladas + 1 base flutuante · nu=29 · bate com nu: sim\nsaída: 0</pre>"
+          },
+          {
+            "rot": "Erro comum: contar a base como grau de liberdade",
+            "html": "<p>O abrir.py da aula 2 imprime <code>juntas: 30 (1 base flutuante + 29 articuladas)</code>. Quem usa njnt=30 como número de motores monta um vetor de comando de 30 posições e o MuJoCo recusa: ctrl tem nu=29. Conte só as articuladas.</p>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Prática",
+      "sub": "Ler a árvore e tirar conclusões dela.",
+      "exercicios": [
+        {
+          "id": "e1",
+          "titulo": "E1 · A árvore do G1",
+          "min": "5 min",
+          "texto": "Rode o bloco \"listar as juntas\" e marque na saída as 6 juntas de uma perna.",
+          "pronto": "a última linha é <code>RESUMO: 29 juntas articuladas + 1 base flutuante · nu=29 · bate com nu: sim</code> e <code>saída: 0</code>."
+        },
+        {
+          "id": "e2",
+          "titulo": "E2 · A árvore do H1",
+          "min": "5 min",
+          "texto": "Rode o mesmo script no H1 e compare: quantas juntas tem a perna dele e qual o maior torque declarado?",
+          "pronto": "<code>python3 kit/juntas.py unitree_h1/scene.xml | tail -1</code> → <code>RESUMO: 19 juntas articuladas + 1 base flutuante · nu=19 · bate com nu: sim</code>."
+        },
+        {
+          "id": "e3",
+          "titulo": "E3 · A junta mais apertada",
+          "min": "5 min",
+          "texto": "Ache no G1 a junta da perna com a menor faixa de movimento e explique por que ela é pequena.",
+          "pronto": "<code>python3 kit/juntas.py | grep ankle_roll</code> mostra <code>-15     15</code> nas duas linhas, e você escreveu uma frase sobre o porquê."
+        }
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Teste da aula",
+      "sub": "A explicação aparece depois da sua resposta.",
+      "perguntas": [
+        {
+          "p": "O G1 do Menagerie tem njnt=30 e nu=29. De onde vem a diferença?",
+          "opcoes": [
+            "Uma junta do pescoço sem motor.",
+            "Um erro do arquivo, corrigido em versões novas.",
+            "A base flutuante, que é uma junta sem motor.",
+            "O sensor de IMU, que conta como junta."
+          ],
+          "certa": 2,
+          "explica": "A base livre é uma junta (do tipo free) e não tem motor. As 29 articuladas têm um atuador cada.",
+          "ref": "passos",
+          "cert": true
+        },
+        {
+          "p": "Por que a perna de um humanoide costuma ter 6 juntas?",
+          "opcoes": [
+            "Para pôr o pé em qualquer posição e orientação dentro do alcance.",
+            "Porque os motores dos fabricantes vêm em pacotes de seis.",
+            "Porque com menos de seis o robô não consegue ficar de pé parado.",
+            "Para copiar a perna humana, que tem exatamente seis juntas iguais."
+          ],
+          "certa": 0,
+          "explica": "Posição (3) e orientação (3) do pé pedem seis graus de liberdade. Três no quadril, um no joelho e dois no tornozelo é o arranjo do G1 e de muitos outros.",
+          "ref": "diagrama"
+        },
+        {
+          "p": "A ficha da Unitree diz 1 junta na cintura; o modelo do Menagerie tem 3. Como tratar isso?",
+          "opcoes": [
+            "O Menagerie está errado; use o valor de 1 junta da ficha oficial.",
+            "A ficha da Unitree está errada; use as 3 juntas do arquivo.",
+            "Somar as duas fontes: o robô tem 4 juntas na cintura.",
+            "São versões diferentes do G1; anote qual versão o modelo representa."
+          ],
+          "certa": 3,
+          "explica": "O G1 tem variantes de 23 a 43 graus de liberdade. O modelo representa uma delas; o seu controlador tem de casar com a versão do robô que você vai usar.",
+          "ref": "diagrama"
+        }
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "Em três frases",
+      "itens": [
+        {
+          "t": "Árvore",
+          "texto": "Pelve livre, 6 por perna, 3 na cintura, 7 por braço no G1 do Menagerie."
+        },
+        {
+          "t": "Limites",
+          "texto": "Range em radianos e torque em actuatorfrcrange, lidos do arquivo."
+        },
+        {
+          "t": "Conferência",
+          "texto": "Juntas articuladas = nu; a base não conta."
+        }
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Para ir além",
+      "links": [
+        {
+          "t": "MJCF: atributos de joint (range, actuatorfrcrange)",
+          "href": "https://mujoco.readthedocs.io/en/stable/XMLreference.html",
+          "icone": "arquivo"
+        },
+        {
+          "t": "Unitree G1: graus de liberdade por versão",
+          "href": "https://www.unitree.com/g1",
+          "icone": "robo"
+        },
+        {
+          "t": "MuJoCo Menagerie: pasta unitree_g1",
+          "href": "https://github.com/google-deepmind/mujoco_menagerie",
+          "icone": "git"
+        }
+      ]
+    }
+  ]
+}

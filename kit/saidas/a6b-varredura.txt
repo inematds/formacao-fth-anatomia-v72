@@ -1,0 +1,7 @@
+10 N → CoM dentro do apoio: sim  queda: não  
+15 N → CoM dentro do apoio: sim  queda: não  
+20 N → CoM dentro do apoio: não · saiu em t = 1.40 s queda: não  
+25 N → CoM dentro do apoio: não · saiu em t = 1.35 s queda: não  
+30 N → CoM dentro do apoio: não · saiu em t = 0.81 s queda: não  
+35 N → CoM dentro do apoio: não · saiu em t = 0.76 s queda: sim  
+40 N → CoM dentro do apoio: não · saiu em t = 0.73 s queda: sim  

@@ -1,0 +1,294 @@
+{
+  "slug": "sensores",
+  "num": 5,
+  "menu": "Sensores",
+  "titulo": "Sentir el propio cuerpo: IMU, encoders, fuerza y tacto",
+  "titulo_curto": "IMU, fuerza y tacto",
+  "minutos": 15,
+  "lead": "Un humanoide de pie siempre está cayendo un poco y corrigiéndose. Para eso necesita saber cuánto está inclinado, dónde está cada articulación y cuánto peso hay en cada pie. En esta clase lees los sensores que el MJCF del G1 declara, agregas los que faltan sin editar el archivo y comparas la lectura con el peso del robot.",
+  "objetivo": "leer la IMU y la fuerza en cada pie del G1 parado y comprobar que la suma de los contactos con el suelo coincide con el peso del robot.",
+  "competencias": [
+    "ler-imu",
+    "acrescentar-sensor-pela-api",
+    "conferir-forca-contra-peso"
+  ],
+  "aprende": [
+    {
+      "icone": "camadas",
+      "t": "Propiocepción × percepción: qué responde cada sensor"
+    },
+    {
+      "icone": "lupa",
+      "t": "Por qué el acelerómetro en reposo marca 9,8"
+    },
+    {
+      "icone": "arquivo",
+      "t": "Agregar un sensor con MjSpec, sin tocar el archivo de Menagerie"
+    },
+    {
+      "icone": "check",
+      "t": "Fuerza en el tobillo × fuerza en el suelo: la diferencia es el pie"
+    }
+  ],
+  "hero_alt": "Pie de robot humanoide apoyado en una placa de fuerza de metal en el suelo del laboratorio, con cables finos que salen de la placa.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "Lo que siente el humanoide",
+      "sub": "Los cuatro primeros responden \"cómo está mi cuerpo\"; el último, \"qué hay alrededor\". Haz clic en cada uno.",
+      "nos": [
+        {
+          "icone": "alvo",
+          "titulo": "IMU",
+          "sub": "inclinación",
+          "forte": true,
+          "itens": [
+            {
+              "icone": "seta",
+              "t": "giroscopio + acelerómetro"
+            }
+          ],
+          "detalhe": "Mide rotación (giroscopio) y aceleración (acelerómetro); la orientación sale de la fusión de ambos. El MJCF del G1 declara dos IMU, en la pelvis y en el torso. El Booster K1 anuncia una IMU de 9 ejes."
+        },
+        {
+          "icone": "relogio",
+          "titulo": "Encoders",
+          "sub": "ángulo de articulación",
+          "itens": [
+            {
+              "icone": "seta",
+              "t": "posición y velocidad"
+            }
+          ],
+          "detalhe": "Dicen el ángulo y la velocidad de cada articulación. G1 y K1 anuncian encoder doble por articulación. En la simulación, es el qpos y el qvel que ya leíste en la clase 2."
+        },
+        {
+          "icone": "grafico",
+          "titulo": "Fuerza",
+          "sub": "tobillo, pie",
+          "itens": [
+            {
+              "icone": "seta",
+              "t": "celda de carga"
+            }
+          ],
+          "detalhe": "Cuánto peso hay en cada pie. Un sensor de fuerza y torque de 6 ejes en el tobillo no aparece en las fichas del G1, R1, H2 y K1 leídas el 19/10/2026 (incierto). En la simulación, agregas un sensor de fuerza en el sitio del pie."
+        },
+        {
+          "icone": "usuario",
+          "titulo": "Tacto",
+          "sub": "manos",
+          "itens": [
+            {
+              "icone": "seta",
+              "t": "matriz táctil"
+            }
+          ],
+          "detalhe": "La mano Dex3-1 del G1 EDU (7 grados de libertad) tiene matriz táctil opcional, según Unitree. La Sharpa Wave anuncia más de 1.000 sensores por punta de dedo (reportado, CES 2026). Las manos son tema del curso 3."
+        },
+        {
+          "icone": "lupa",
+          "titulo": "Percepción",
+          "sub": "cámara, LiDAR",
+          "itens": [
+            {
+              "icone": "seta",
+              "t": "profundidad + LiDAR 3D"
+            }
+          ],
+          "detalhe": "El G1 trae cámara de profundidad, LiDAR 3D y 4 micrófonos, según la ficha oficial. El MJCF del Menagerie no declara cámara ni LiDAR: la percepción queda para el curso de VLA."
+        }
+      ],
+      "legenda": "Los sensores que el MJCF no declara no existen en la simulación hasta que los agregues."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "Cuatro lecturas para no equivocarte",
+      "sub": "Haz clic en cada una.",
+      "passos": [
+        {
+          "titulo": "9,8 parado",
+          "sub": "acelerómetro",
+          "texto": [
+            "El acelerómetro mide la fuerza que sostiene al sensor, no el movimiento: parado en el suelo, lee 9,8 m/s² hacia arriba. En caída libre, leería cero.",
+            "Así es como la IMU sabe dónde queda \"abajo\" y, de ahí, la inclinación."
+          ]
+        },
+        {
+          "titulo": "Agregar",
+          "sub": "MjSpec",
+          "texto": [
+            "El sensores.py abre el archivo con mujoco.MjSpec.from_file, agrega un sensor de orientación (framequat) en la IMU de la pelvis y uno de fuerza en cada pie, y compila.",
+            "El archivo del Menagerie queda intacto: tú cambias el robot en tu script, versionado junto con tu código."
+          ]
+        },
+        {
+          "titulo": "158 × 164 N",
+          "sub": "tobillo × suelo",
+          "texto": [
+            "El sensor de fuerza en el sitio del pie mide lo que pasa del pie a la pierna; el contacto mide lo que el suelo empuja. La diferencia, cerca de 6 N, es el peso del propio pie (0,61 kg en el modelo).",
+            "En un robot real, la celda de carga va en el tobillo por la misma razón."
+          ]
+        },
+        {
+          "titulo": "Suma = peso",
+          "sub": "la comprobación",
+          "texto": [
+            "Parado, la suma de las fuerzas de contacto tiene que igualar el peso: 33,3 kg × 9,81 = 327 N. La razón 1.00 muestra que el robot se apoya solo en los pies y sin empujón.",
+            "Si da menos de 1, algo está sosteniendo al robot (otra parte tocando el suelo, una fuerza externa)."
+          ],
+          "exemplo": {
+            "rot": "Línea que confirma",
+            "texto": "soma dos contatos / peso do robô (327 N): 1.00"
+          }
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "Leer y agregar sensores",
+      "sub": "El fragmento muestra cómo el script agrega los tres sensores; el bloque corre 1 s con el G1 parado.",
+      "blocos": [
+        {
+          "rot": "Fragmento de kit/sensores.py",
+          "icone": "arquivo",
+          "conteudo": "spec = mujoco.MjSpec.from_file(str(fth.caminho(MODELO)))\nspec.add_sensor(name=\"orientacao_pelve\", type=mujoco.mjtSensor.mjSENS_FRAMEQUAT,\n                objtype=mujoco.mjtObj.mjOBJ_SITE, objname=\"imu_in_pelvis\")\nfor lado, sitio in ((\"esq\", \"left_foot\"), (\"dir\", \"right_foot\")):\n    spec.add_sensor(name=f\"forca_pe_{lado}\", type=mujoco.mjtSensor.mjSENS_FORCE,\n                    objtype=mujoco.mjtObj.mjOBJ_SITE, objname=sitio)\nm = spec.compile()"
+        },
+        {
+          "rot": "Terminal · G1 parado 1 s",
+          "icone": "terminal",
+          "conteudo": "F=${FTH:-$HOME/fth}; cd $F/anatomia && . $F/.venv/bin/activate\npython3 kit/sensores.py --segundos 1"
+        }
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {
+            "rot": "Salida capturada (19/10/2026)",
+            "html": "<pre>G1 parado 1 s · 7 sensores (4 do arquivo + 3 acrescentados)\n  imu-torso-angular-velocity         [0. 0. 0.]\n  imu-torso-linear-acceleration      [0.  0.  9.8]\n  imu-pelvis-angular-velocity        [0. 0. 0.]\n  imu-pelvis-linear-acceleration     [0.  0.  9.8]\nIMU (pelve): inclinação lateral 0.0° · frente/trás -0.1°\nsensor de força no tornozelo: pé esquerdo 158 N · pé direito 157 N\ncontatos com o chão:          pé esquerdo 164 N · pé direito 163 N\nsoma dos contatos / peso do robô (327 N): 1.00</pre><p>Giroscopios en cero, acelerómetros en 9,8 hacia arriba, inclinación cercana a cero y el peso repartido entre los dos pies.</p>"
+          },
+          {
+            "rot": "Error común: ¿9,8 es aceleración?",
+            "html": "<p>Leer <code>[0. 0. 9.8]</code> y concluir que el robot está subiendo es el error clásico. El acelerómetro mide fuerza específica: parado, muestra la reacción del suelo contra la gravedad. Para ver movimiento de verdad, compáralo con el giroscopio y con la altura de la pelvis.</p>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Práctica",
+      "sub": "Lee, comprueba y agrega un sensor tuyo.",
+      "exercicios": [
+        {
+          "id": "e1",
+          "titulo": "E1 · El G1 parado",
+          "min": "3 min",
+          "texto": "Corre el bloque y comprueba las tres líneas finales.",
+          "pronto": "<code>python3 kit/sensores.py</code> termina en <code>soma dos contatos / peso do robô (327 N): 1.00</code>."
+        },
+        {
+          "id": "e2",
+          "titulo": "E2 · Más tiempo parado",
+          "min": "3 min",
+          "texto": "Corre con --segundos 3. Si el robot se estuviera deslizando o hundiendo, la razón cambiaría.",
+          "pronto": "<code>python3 kit/sensores.py --segundos 3 | tail -1</code> → <code>soma dos contatos / peso do robô (327 N): 1.00</code>."
+        },
+        {
+          "id": "e3",
+          "titulo": "E3 · Un sensor tuyo",
+          "min": "10 min",
+          "texto": "Copia kit/sensores.py a kit/meus_sensores.py (en la misma carpeta, porque importa el fth.py) y agrega un framequat en el sitio imu_in_torso, con el venv activo.",
+          "pronto": "<code>cd ~/fth/anatomia && python3 kit/meus_sensores.py | head -1</code> → <code>G1 parado 1 s · 8 sensores (4 do arquivo + 4 acrescentados)</code>."
+        }
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Prueba de la clase",
+      "sub": "La explicación aparece después de tu respuesta.",
+      "perguntas": [
+        {
+          "p": "El acelerómetro de la pelvis del G1 parado lee [0, 0, 9.8]. ¿Qué significa eso?",
+          "opcoes": [
+            "Que el robot está acelerando hacia arriba a 9,8 m/s² en ese instante.",
+            "Que el sensor de la pelvis tiene un defecto de calibración.",
+            "Que el suelo sostiene al robot contra la gravedad, y que él lo mide.",
+            "Que la simulación todavía no ha empezado a contar el tiempo."
+          ],
+          "certa": 2,
+          "explica": "El acelerómetro mide fuerza específica. En reposo, lee la gravedad hacia arriba; en caída libre, leería cero. De ahí saca la IMU la dirección de \"hacia abajo\".",
+          "ref": "passos",
+          "cert": true
+        },
+        {
+          "p": "El sensor de fuerza del pie leyó 158 N y el contacto con el suelo 164 N. ¿Por qué la diferencia?",
+          "opcoes": [
+            "El sensor del tobillo no ve el peso del pie, que queda debajo de él.",
+            "Ruido del sensor de fuerza, que MuJoCo agrega por sí solo.",
+            "El contacto con el suelo cuenta el peso del pie dos veces en la suma.",
+            "El robot se está deslizando despacio y perdiendo parte del apoyo en el suelo."
+          ],
+          "certa": 0,
+          "explica": "El sitio del pie mide lo que pasa del pie a la pierna. El pie (0,61 kg en el modelo) pesa cerca de 6 N, y esa parte solo aparece en el contacto.",
+          "ref": "passos"
+        },
+        {
+          "p": "¿Por qué agregar sensores con MjSpec en vez de editar el g1.xml de Menagerie?",
+          "opcoes": [
+            "Porque el g1.xml de Menagerie está marcado como solo lectura en el disco.",
+            "El archivo original queda intacto y el cambio queda versionado en tu código.",
+            "Porque MjSpec hace la simulación del robot mucho más rápida.",
+            "Porque los sensores declarados directo en el XML ya no funcionan en MuJoCo 3.16."
+          ],
+          "certa": 1,
+          "explica": "Editar el archivo de terceros se rompe en la próxima actualización y desaparece de tu historia en Git. Armar el modelo en el script deja claro qué cambiaste.",
+          "ref": "codigo"
+        }
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "En tres frases",
+      "itens": [
+        {
+          "t": "Cuerpo",
+          "texto": "IMU, encoders y fuerza dicen cómo está el cuerpo; cámara y LiDAR dicen qué hay alrededor."
+        },
+        {
+          "t": "API",
+          "texto": "El sensor que falta entra con MjSpec, sin editar Menagerie."
+        },
+        {
+          "t": "Verificación",
+          "texto": "En reposo, la suma de los contactos es el peso: 327 N en el G1."
+        }
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Para ir más allá",
+      "links": [
+        {
+          "t": "MuJoCo: editar modelos con MjSpec",
+          "href": "https://mujoco.readthedocs.io/en/stable/programming/modeledit.html",
+          "icone": "arquivo"
+        },
+        {
+          "t": "MJCF: sensores (gyro, accelerometer, force, framequat)",
+          "href": "https://mujoco.readthedocs.io/en/stable/XMLreference.html",
+          "icone": "lista"
+        },
+        {
+          "t": "Unitree G1: sensores de la ficha oficial",
+          "href": "https://www.unitree.com/g1",
+          "icone": "robo"
+        },
+        {
+          "t": "Cámaras y percepción con VLA: curso vla-v72",
+          "href": "https://inematds.github.io/vla-v72/es/",
+          "icone": "cerebro"
+        }
+      ]
+    }
+  ]
+}

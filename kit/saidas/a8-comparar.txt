@@ -1,0 +1,10 @@
+item                               unitree_g1           unitree_h1
+GDL acionados (nu)                         29                   19
+massa do modelo (kg)                     33.3                 51.4
+altura do CoM (m)                        0.69                 0.95
+maior torque (N·m)                        139                  300
+junta do maior torque        right_knee_joint           right_knee
+sensores no arquivo                         4                    0
+pose inicial                            stand                 home
+FICHA: 7 itens comparados
+saída: 0

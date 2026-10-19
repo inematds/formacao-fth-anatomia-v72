@@ -1,0 +1,283 @@
+{
+  "slug": "computacao-energia",
+  "num": 7,
+  "menu": "Energía",
+  "titulo": "Cerebro y batería: qué corre dónde",
+  "titulo_curto": "Cómputo y batería",
+  "minutos": 15,
+  "lead": "Un humanoide ejecuta varias capas de control al mismo tiempo, cada una a su ritmo, y carga su propia energía. En esta lección ves qué viene de fábrica en el G1, el H2 y el K1, el tiempo que tiene cada capa por ciclo, y haces el cálculo de autonomía a partir de la ficha, separando lo que es dato del fabricante de lo que es cálculo derivado.",
+  "objetivo": "calcular la autonomía y el presupuesto de tiempo de cada capa de control de un humanoide a partir de la ficha del fabricante.",
+  "competencias": [
+    "mapear-camadas-de-controle",
+    "fazer-conta-de-bateria",
+    "separar-dado-de-conta-derivada"
+  ],
+  "aprende": [
+    {
+      "icone": "camadas",
+      "t": "Las capas: motor, PD, policy y VLA, cada una a su ritmo"
+    },
+    {
+      "icone": "chip",
+      "t": "CPU del fabricante, Orin opcional y Thor: qué trae cada robot"
+    },
+    {
+      "icone": "relogio",
+      "t": "Presupuesto de lazo: 1 kHz da 1 ms por ciclo"
+    },
+    {
+      "icone": "grafico",
+      "t": "Wh = V × Ah y la autonomía sin reserva"
+    }
+  ],
+  "hero_alt": "Torso abierto de un robot humanoide sobre una mesa de trabajo, con una placa de computadora, un paquete de batería y un multímetro al lado.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "Cuatro ritmos en un solo cuerpo",
+      "sub": "De arriba (lento, piensa) hacia abajo (rápido, sostiene el cuerpo). Haz clic en cada capa.",
+      "estilo": "escada",
+      "nos": [
+        {
+          "icone": "cerebro",
+          "titulo": "VLA",
+          "sub": "5–10 Hz",
+          "itens": [
+            {
+              "icone": "relogio",
+              "t": "100–200 ms"
+            }
+          ],
+          "detalhe": "El modelo que ve, lee la instrucción y decide qué hacer. En el Helix de Figure, el sistema que piensa corre a 7–9 Hz (Figure, 2025). Tema del curso de VLA."
+        },
+        {
+          "icone": "robo",
+          "titulo": "Policy",
+          "sub": "~50 Hz",
+          "itens": [
+            {
+              "icone": "relogio",
+              "t": "20 ms"
+            }
+          ],
+          "detalhe": "La red entrenada con RL que manda objetivos de articulación para caminar o imitar movimiento. Cerca de 50 Hz es lo típico en los repositorios citados en la formación (el SONIC a 50 Hz está reportado). En el Helix 02, la capa visuomotora emite objetivos de articulación a 200 Hz."
+        },
+        {
+          "icone": "alvo",
+          "titulo": "PD / S0",
+          "sub": "500 Hz–1 kHz",
+          "forte": true,
+          "itens": [
+            {
+              "icone": "relogio",
+              "t": "1–2 ms"
+            }
+          ],
+          "detalhe": "Transforma el objetivo de articulación en torque, articulación por articulación, y sostiene el cuerpo entre dos decisiones de la policy. Corre en el robot, en el software del fabricante. El controlador de cuerpo completo del Helix 02 corre a 1 kHz, con 10 millones de parámetros (Figure, 27/01/2026)."
+        },
+        {
+          "icone": "chip",
+          "titulo": "Motor",
+          "sub": "driver",
+          "itens": [
+            {
+              "icone": "relogio",
+              "t": "más rápido todavía"
+            }
+          ],
+          "detalhe": "El driver de cada motor cierra la corriente dentro del actuador. No lo programa quien entrena la policy; el curso 4 muestra dónde aparece en el SDK."
+        }
+      ],
+      "legenda": "Cuanto más abajo, más rápido y más cerca del motor. Una capa lenta nunca puede sostener el cuerpo sola."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "Cómputo y batería, con fuente",
+      "sub": "Haz clic en cada elemento.",
+      "passos": [
+        {
+          "titulo": "Lo que viene de fábrica",
+          "sub": "CPU, Orin, Thor",
+          "texto": [
+            "El G1 viene con una CPU de 8 núcleos; el módulo de alto cómputo (Orin y similares) es opcional y solo en el EDU. El H2 trae un Intel i5 y, en el EDU, una segunda PC con i7. El Booster K1 anuncia 117 TOPS (unitree.com, booster.tech, consultados el 19/10/2026).",
+            "Jetson Thor de catálogo, por ahora, solo en el Booster T2 (reportado, 07/2026)."
+          ]
+        },
+        {
+          "titulo": "Precio de la placa",
+          "sub": "Thor y Orin",
+          "texto": [
+            "El kit de desarrollo del Jetson AGX Thor (GPU Blackwell, 128 GB) salió a US$ 3.499 en 08/2025 y subió a US$ 5.499 en 07/2026; el Orin Nano Super pasó de US$ 249 a US$ 399 (reportado).",
+            "El precio de las placas cambia: cítalo siempre con mes y fuente."
+          ]
+        },
+        {
+          "titulo": "Wh = V × Ah",
+          "sub": "el cálculo",
+          "texto": [
+            "Unitree da para el G1 9.000 mAh, pack 13S y cerca de 2 h. No da los Wh. Con 3,7 V nominales por celda de litio: 13 × 3,7 V = 48,1 V; 48,1 V × 9 Ah ≈ 433 Wh. Es un <b>cálculo derivado</b>: escríbelo así.",
+            "Para el H2, Unitree ya da 0,972 kWh (15 Ah, 75,6 V máximo)."
+          ]
+        },
+        {
+          "titulo": "Autonomía",
+          "sub": "sin reserva",
+          "texto": [
+            "Autonomía = Wh ÷ W × 60. Al revés: 433 Wh en 2 h implican cerca de 216 W promedio en el G1; 0,972 kWh en ~3 h (reportado) implican 324 W en el H2.",
+            "Nadie descarga la batería hasta cero, y caminar rápido consume más que estar quieto: la autonomía útil es menor que el cálculo."
+          ],
+          "exemplo": {
+            "rot": "Respuesta de la clase",
+            "texto": "G1: 433 Wh ÷ 216 W × 60 ≈ 120 min · H2: 972 Wh ÷ 324 W × 60 = 180 min"
+          }
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "Los cálculos en la terminal",
+      "sub": "El autonomia.py hace el cálculo del pack (cuando la ficha no da los Wh), la autonomía y el presupuesto de cada frecuencia.",
+      "blocos": [
+        {
+          "rot": "Terminal · G1, H2 y presupuesto de lazo",
+          "icone": "terminal",
+          "conteudo": "F=${FTH:-$HOME/fth}; cd $F/anatomia && . $F/.venv/bin/activate\npython3 kit/autonomia.py --pack-s 13 --ah 9 --w 216     # G1: 9.000 mAh, 13S, ~2 h (unitree.com/g1)\npython3 kit/autonomia.py --wh 972 --w 324               # H2: 0,972 kWh (unitree.com/H2)\npython3 kit/autonomia.py --hz 1000 500 200 50 10        # presupuesto de cada capa de control"
+        }
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {
+            "rot": "Salida capturada (19/10/2026)",
+            "html": "<pre>pack 13S × 3.7 V = 48.1 V nominal · 48.1 V × 9 Ah = 433 Wh (conta derivada)\nenergia 433 Wh · potência média 216 W\nautonomia: 120 min (2.0 h), sem reserva\nenergia 972 Wh · potência média 324 W\nautonomia: 180 min (3.0 h), sem reserva\n   1000 Hz →    1.0 ms por ciclo\n    500 Hz →    2.0 ms por ciclo\n    200 Hz →    5.0 ms por ciclo\n     50 Hz →   20.0 ms por ciclo\n     10 Hz →  100.0 ms por ciclo</pre><p>La policy a 50 Hz tiene 20 ms para leer sensores, correr la red y mandar objetivos. El PD a 1 kHz tiene 1 ms: por eso corre en el robot, cerca del motor.</p>"
+          },
+          {
+            "rot": "Error común: mAh en lugar de Ah",
+            "html": "<pre>pack 13S × 3.7 V = 48.1 V nominal · 48.1 V × 9000 Ah = 432900 Wh (conta derivada)\nenergia 432900 Wh · potência média 216 W\nautonomia: 120250 min (2004.2 h), sem reserva</pre><p>9000 en lugar de 9 da 433 mil Wh y 2.004 horas. Un cálculo absurdo es señal de unidad cambiada: 9.000 mAh = 9 Ah.</p>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Práctica",
+      "sub": "Cálculos con la ficha en la mano.",
+      "exercicios": [
+        {
+          "id": "e1",
+          "titulo": "E1 · La autonomía del G1",
+          "min": "3 min",
+          "texto": "Corre el cálculo del G1 con los números de la ficha y compáralo con el \"cerca de 2 h\" que publica Unitree.",
+          "pronto": "<code>python3 kit/autonomia.py --pack-s 13 --ah 9 --w 216</code> → <code>autonomia: 120 min (2.0 h), sem reserva</code>."
+        },
+        {
+          "id": "e2",
+          "titulo": "E2 · El H2",
+          "min": "3 min",
+          "texto": "Haz la misma cuenta con la energía que Unitree publica para el H2.",
+          "pronto": "<code>python3 kit/autonomia.py --wh 972 --w 324</code> → <code>autonomia: 180 min (3.0 h), sem reserva</code>."
+        },
+        {
+          "id": "e3",
+          "titulo": "E3 · El presupuesto de tu controlador",
+          "min": "5 min",
+          "texto": "Una política tuya tarda 12 ms en ejecutarse en la CPU. ¿A qué frecuencia cabe? Usa --hz con 50, 100 y 200.",
+          "pronto": "<code>python3 kit/autonomia.py --hz 50 100 200</code> muestra <code>20.0</code>, <code>10.0</code> y <code>5.0 ms por ciclo</code>, y concluiste que 12 ms solo cabe a 50 Hz."
+        }
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Prueba de la clase",
+      "sub": "La explicación aparece después de tu respuesta.",
+      "perguntas": [
+        {
+          "p": "¿Por qué el control PD de articulación corre en el robot y no en un servidor en la red?",
+          "opcoes": [
+            "Porque la red inalámbrica no aguanta el volumen de datos de los motores.",
+            "Porque un servidor en la red costaría demasiado caro para el laboratorio.",
+            "Porque el fabricante prohíbe ejecutar el control fuera del robot.",
+            "Porque a 500 Hz–1 kHz tiene de 1 a 2 ms, y la red no garantiza eso."
+          ],
+          "certa": 3,
+          "explica": "La capa que sostiene el cuerpo no puede esperar. Las capas lentas (policy a 50 Hz, VLA a 5–10 Hz) aguantan más retraso; el PD, no.",
+          "ref": "diagrama",
+          "cert": true
+        },
+        {
+          "p": "¿Cómo escribir la energía de la batería del G1 en un material técnico?",
+          "opcoes": [
+            "\"432 Wh\", como aparecía en un curso de 2025, sin citar fuente.",
+            "\"Cerca de 433 Wh, cálculo derivado (13S × 3,7 V × 9 Ah)\", citando la ficha.",
+            "\"500 Wh\", redondeando hacia arriba para dar margen de seguridad en el cálculo.",
+            "\"No se sabe\", porque Unitree no publica el valor en Wh."
+          ],
+          "certa": 1,
+          "explica": "La ficha da mAh, pack y autonomía, no Wh. Hacer el cálculo es legítimo, siempre que digas que es derivado y qué tensión por celda supusiste.",
+          "ref": "passos"
+        },
+        {
+          "p": "¿Qué afirmación sobre cómputo a bordo concuerda con las fichas leídas el 19/10/2026?",
+          "opcoes": [
+            "El G1 base sale de fábrica con un Jetson Thor de 128 GB.",
+            "Todo humanoide de investigación usa Jetson Orin de fábrica en 2026.",
+            "G1 con CPU de 8 núcleos; módulo de alto cómputo opcional en el EDU.",
+            "El H2 no tiene computadora propia y depende de una PC externa conectada."
+          ],
+          "certa": 2,
+          "explica": "G1: CPU de 8 núcleos, Orin opcional en el EDU. H2: Intel i5 e i7. Thor de catálogo solo en el Booster T2 (reportado).",
+          "ref": "passos"
+        }
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "En tres frases",
+      "itens": [
+        {
+          "t": "Capas",
+          "texto": "VLA 5–10 Hz, policy ~50 Hz, PD 500 Hz–1 kHz, motor aún más rápido."
+        },
+        {
+          "t": "A bordo",
+          "texto": "G1 con CPU de 8 núcleos y Orin opcional en el EDU; Thor solo en el T2 (reportado)."
+        },
+        {
+          "t": "Batería",
+          "texto": "Wh = V × Ah; un cálculo derivado se dice derivado; la autonomía real es menor."
+        }
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Para ir más allá",
+      "links": [
+        {
+          "t": "Figure: Helix 02 (S0 a 1 kHz)",
+          "href": "https://www.figure.ai/news/helix-02",
+          "icone": "cerebro"
+        },
+        {
+          "t": "Figure: Helix (S1 a 200 Hz, S2 a 7–9 Hz)",
+          "href": "https://www.figure.ai/news/helix",
+          "icone": "cerebro"
+        },
+        {
+          "t": "Unitree H2: batería y computadoras",
+          "href": "https://www.unitree.com/H2",
+          "icone": "robo"
+        },
+        {
+          "t": "Booster K1: 117 TOPS y autonomía caminando",
+          "href": "https://www.booster.tech/booster-k1/",
+          "icone": "robo"
+        },
+        {
+          "t": "SONIC y el control de cuerpo completo (GR00T-WholeBodyControl)",
+          "href": "https://github.com/NVlabs/GR00T-WholeBodyControl",
+          "icone": "git"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+pack 13S × 3.7 V = 48.1 V nominal · 48.1 V × 9000 Ah = 432900 Wh (conta derivada)
+energia 432900 Wh · potência média 216 W
+autonomia: 120250 min (2004.2 h), sem reserva

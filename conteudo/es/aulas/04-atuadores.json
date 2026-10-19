@@ -1,0 +1,294 @@
+{
+  "slug": "atuadores",
+  "num": 4,
+  "menu": "Actuadores",
+  "titulo": "Actuadores: el mapa del cuerpo",
+  "titulo_curto": "Actuadores y torque",
+  "minutos": 15,
+  "lead": "La rodilla y la muñeca no piden el mismo motor. En esta lección ves los cuatro tipos de actuador que aparecen en humanoides y dónde suele ganar cada uno, aprendes cómo el MJCF describe un motor y mides, por simulación, cuánto torque hace la rodilla del G1 para sostener al robot agachado.",
+  "objetivo": "medir el torque de cada articulación del G1 agachado y compararlo con el límite que el MJCF declara para ella.",
+  "competencias": [
+    "escolher-atuador-por-articulacao",
+    "ler-atuador-no-mjcf",
+    "medir-torque-por-simulacao"
+  ],
+  "aprende": [
+    {
+      "icone": "camadas",
+      "t": "QDD, armónico, planetario y lineal: el mapa del cuerpo"
+    },
+    {
+      "icone": "arquivo",
+      "t": "position × motor en el MJCF: kp, ctrlrange, forcerange, actuatorfrcrange"
+    },
+    {
+      "icone": "grafico",
+      "t": "Torque de la rodilla de 0° a 90° de agachamiento"
+    },
+    {
+      "icone": "check",
+      "t": "Dos caminos que tienen que coincidir: simular parado y mj_inverse"
+    }
+  ],
+  "hero_alt": "Tres actuadores rotativos de robot desmontados lado a lado sobre un banco oscuro, con torquímetro y llave Allen.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "Cada tipo gana en una articulación",
+      "sub": "El sector no convergió en un único actuador, sino en un mapa del cuerpo (informe de humanoid.guide, reportado). Haz clic en cada tipo.",
+      "nos": [
+        {
+          "icone": "robo",
+          "titulo": "QDD",
+          "sub": "piernas",
+          "forte": true,
+          "itens": [
+            {
+              "icone": "seta",
+              "t": "reducción ~5:1 a 20:1"
+            }
+          ],
+          "detalhe": "Casi direct drive: motor grande con una etapa de reducción. Aguanta impactos, deja que la articulación se mueva desde afuera (backdrivable) y permite controlar el torque sin sensor de torque. Es común en piernas de robots de investigación y de RL. Unitree describe el motor del G1 como PMSM de rotor interno con rodamiento de rodillos cruzados y encoder doble; llamarlo QDD es incierto."
+        },
+        {
+          "icone": "chip",
+          "titulo": "Armónico",
+          "sub": "brazo, muñeca",
+          "itens": [
+            {
+              "icone": "seta",
+              "t": "reducción alta, compacto"
+            }
+          ],
+          "detalhe": "Reductor de onda (strain-wave): mucha reducción en un volumen pequeño y posición precisa. Por eso aparece en brazos y muñecas. Los proveedores dicen que sufre con el golpe repetido de una rodilla (afirmación de proveedor, reportada)."
+        },
+        {
+          "icone": "camadas",
+          "titulo": "Planetario",
+          "sub": "punto medio",
+          "itens": [
+            {
+              "icone": "seta",
+              "t": "60–250 N·m (Schaeffler)"
+            }
+          ],
+          "detalhe": "Punto medio entre costo, torque y robustez. En la CES 2026 Schaeffler mostró un actuador planetario de 60 a 250 N·m con motor, encoder y controlador integrados (reportado)."
+        },
+        {
+          "icone": "alvo",
+          "titulo": "Lineal",
+          "sub": "rodilla grande",
+          "itens": [
+            {
+              "icone": "seta",
+              "t": "husillo de rodillos planetarios"
+            }
+          ],
+          "detalhe": "Convierte giro en empuje mediante un husillo de rodillos. Aparece en la rodilla y el tobillo de humanoides grandes, donde la carga es alta y la carrera es corta. En el Optimus, los informes citan rotativos de 20, 110 y 180 N·m más lineales en las piernas (reportado)."
+        }
+      ],
+      "legenda": "Todo en este mapa viene de informes del sector y de proveedores: es tendencia, no especificación."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "Cómo el MJCF describe un motor",
+      "sub": "Haz clic en cada atributo.",
+      "passos": [
+        {
+          "titulo": "position",
+          "sub": "el G1",
+          "texto": [
+            "El G1 de Menagerie usa actuadores de posición: tú mandas el ángulo objetivo en ctrl y MuJoCo aplica un control proporcional con kp=500 y amortiguamiento crítico (dampratio=1).",
+            "Es el mismo esquema de las políticas de RL de humanoides: la red manda objetivos de articulación y un PD en el robot los convierte en torque (curso 1 de la formación)."
+          ]
+        },
+        {
+          "titulo": "motor",
+          "sub": "el H1",
+          "texto": [
+            "El H1 de Menagerie usa actuadores de torque: ctrl ya es el torque, de -200 a 200 N·m en la cadera y -300 a 300 en la rodilla.",
+            "Sin un controlador tuyo, el H1 se desploma en el primer segundo. El G1 se queda de pie solo porque los actuadores de posición sostienen la pose \"stand\"."
+          ]
+        },
+        {
+          "titulo": "ctrlrange",
+          "sub": "rango del comando",
+          "texto": [
+            "En un actuador de posición, inheritrange=\"1\" copia el rango de la articulación al comando: el objetivo nunca sale del límite mecánico.",
+            "En un actuador de torque, el rango del comando es el rango de torque."
+          ]
+        },
+        {
+          "titulo": "actuatorfrcrange",
+          "sub": "el techo",
+          "texto": [
+            "En el G1 el techo de torque está en la articulación (actuatorfrcrange=\"-139 139\" en la rodilla). Aunque el proporcional pida más, MuJoCo corta ahí.",
+            "Ese es el número que el script usa para calcular el porcentaje del límite."
+          ],
+          "exemplo": {
+            "rot": "Fragmento de g1.xml",
+            "texto": "position kp=\"500\" dampratio=\"1\" inheritrange=\"1\" · joint left_knee_joint actuatorfrcrange=\"-139 139\""
+          }
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "Cuánto hace la rodilla en cuclillas",
+      "sub": "torque_agachado.py parte de la pose \"stand\", dobla la rodilla (la cadera y el tobillo se doblan la mitad, para que el pie quede plano), la mantiene 2 s y lee el torque de cada articulación. Después verifica el mayor con dinámica inversa.",
+      "blocos": [
+        {
+          "rot": "Terminal · rodilla a 90°",
+          "icone": "terminal",
+          "conteudo": "F=${FTH:-$HOME/fth}; cd $F/anatomia && . $F/.venv/bin/activate\npython3 kit/torque_agachado.py --joelho 90"
+        },
+        {
+          "rot": "Terminal · de 0° a 120°",
+          "icone": "terminal",
+          "conteudo": "F=${FTH:-$HOME/fth}; cd $F/anatomia && . $F/.venv/bin/activate\nfor k in 0 30 60 90 120; do\n  echo \"joelho $k°: $(python3 kit/torque_agachado.py --joelho $k | grep -E '^joelhos|^ATENÇÃO' | tr '\\n' ' ')\"\ndone"
+        }
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {
+            "rot": "Salida capturada (19/10/2026)",
+            "html": "<pre>joelho dobrado 90° · altura da pelve 0.59 m · 8 contatos com o chão\njunta                         torque (N·m)  limite  % do limite\nleft_knee_joint                         31     139          22%\nright_knee_joint                        31     139          22%\nleft_hip_pitch_joint                     2      88           2%\nright_hip_pitch_joint                    2      88           2%\nconferência mj_inverse (left_knee_joint): 31 N·m\njoelhos: esquerdo 31 N·m · direito 31 N·m\nmaior torque: left_knee_joint 31 N·m</pre><p>31 N·m en cada rodilla, 22 % del techo del modelo. Simular en reposo y mj_inverse dan el mismo valor: es la señal de que la pose está en equilibrio.</p>"
+          },
+          {
+            "rot": "Barrido y el error común",
+            "html": "<pre>joelho 0°: joelhos: esquerdo 0 N·m · direito 0 N·m \njoelho 30°: joelhos: esquerdo 11 N·m · direito 11 N·m \njoelho 60°: joelhos: esquerdo 21 N·m · direito 21 N·m \njoelho 90°: joelhos: esquerdo 31 N·m · direito 31 N·m \njoelho 120°: ATENÇÃO: o robô caiu. joelhos: esquerdo 2 N·m · direito 2 N·m </pre><p>El torque sube casi en línea recta hasta 90°. A 120° el robot cayó sentado y el \"torque\" leído se desploma: un número de robot caído no es una medida. Por eso el script avisa cuando la pelvis queda por debajo de 0,4 m.</p>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Práctica",
+      "sub": "Medir, barrer y comparar con el robot real.",
+      "exercicios": [
+        {
+          "id": "e1",
+          "titulo": "E1 · Rodilla a 90°",
+          "min": "3 min",
+          "texto": "Ejecuta el bloque \"joelho a 90°\" y verifica que los dos caminos (simulación en reposo y mj_inverse) coincidan.",
+          "pronto": "<code>python3 kit/torque_agachado.py --joelho 90</code> termina en <code>maior torque: left_knee_joint 31 N·m</code>, con <code>conferência mj_inverse (left_knee_joint): 31 N·m</code>."
+        },
+        {
+          "id": "e2",
+          "titulo": "E2 · La curva de la rodilla",
+          "min": "5 min",
+          "texto": "Ejecuta el barrido y anota en una tabla el torque de la rodilla en cada ángulo. ¿En qué ángulo el robot deja de agacharse y cae?",
+          "pronto": "el barrido muestra <code>joelho 60°: joelhos: esquerdo 21 N·m · direito 21 N·m</code> y la línea de 120° empieza con <code>ATENÇÃO: o robô caiu.</code>"
+        },
+        {
+          "id": "e3",
+          "titulo": "E3 · Modelo × robot real",
+          "min": "5 min",
+          "texto": "Los revendedores citan 90 N·m de pico en la rodilla del G1 base y 120 N·m en el EDU (reportado). Calcula cuánto representan los 31 N·m de la sentadilla en cada caso y di si sobra margen para saltar.",
+          "pronto": "anotaste tres porcentajes (22 % del modelo, cerca de 34 % del base y 26 % del EDU) y una frase sobre el margen, citando que los números de los revendedores son reportados."
+        }
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Prueba de la clase",
+      "sub": "La explicación aparece después de tu respuesta.",
+      "perguntas": [
+        {
+          "p": "¿Por qué el G1 de Menagerie se queda de pie sin ningún controlador tuyo, y el H1 no?",
+          "opcoes": [
+            "Porque el G1 es mucho más liviano que el H1 y cae más despacio.",
+            "El G1 usa actuadores de posición que sostienen la pose; el H1, de torque.",
+            "Porque el H1 de Menagerie no tiene ninguna pose guardada (keyframe).",
+            "Porque el G1 declara cuatro sensores de IMU y el H1 no declara ninguno."
+          ],
+          "certa": 1,
+          "explica": "Un actuador de posición con kp=500 ya es un controlador. En el H1, ctrl es torque: con cero, se desploma. El peso y los sensores no cambian eso.",
+          "ref": "passos",
+          "cert": true
+        },
+        {
+          "p": "¿Dónde suele aparecer el reductor armónico en un humanoide?",
+          "opcoes": [
+            "En la rodilla de robots que corren y saltan, donde el choque es mayor.",
+            "En el pie, funcionando como amortiguador de impacto contra el suelo.",
+            "En brazos y muñecas, donde importan una reducción alta y un tamaño pequeño.",
+            "En ningún lugar: los fabricantes abandonaron ese reductor en 2026."
+          ],
+          "certa": 2,
+          "explica": "El armónico es compacto y preciso; el choque repetido de una rodilla es el punto débil citado por los proveedores. Por eso el mapa del cuerpo lo coloca en el brazo.",
+          "ref": "diagrama"
+        },
+        {
+          "p": "Simular en reposo dio 31 N·m en la rodilla y mj_inverse también. ¿Qué muestra esa concordancia?",
+          "opcoes": [
+            "Que el robot está en equilibrio estático en esa pose.",
+            "Que el modelo de Menagerie es idéntico al robot real.",
+            "Que el límite de 139 N·m declarado en el archivo está equivocado.",
+            "Que la rodilla se va a romper si se usa así por mucho tiempo."
+          ],
+          "certa": 0,
+          "explica": "Con velocidad y aceleración cero, el torque de la dinámica inversa es el necesario para sostener la pose. Coincidir con la simulación muestra equilibrio, no fidelidad al robot real.",
+          "ref": "codigo"
+        },
+        {
+          "p": "A 120° el script leyó 2 N·m en la rodilla. ¿Qué concluir?",
+          "opcoes": [
+            "Que agacharse más hondo alivia el esfuerzo de la rodilla del robot.",
+            "Que el actuador se saturó y superó el techo de 139 N·m declarado.",
+            "Que MuJoCo tiene un error numérico en ese rango de ángulo.",
+            "Que el robot se cayó; el torque de un robot caído no mide la sentadilla."
+          ],
+          "certa": 3,
+          "explica": "La pelvis quedó cerca del suelo: el robot se sentó. Antes de usar un número de simulación, confirma que el robot está en la situación que querías medir.",
+          "ref": "codigo"
+        }
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "En tres frases",
+      "itens": [
+        {
+          "t": "Mapa",
+          "texto": "QDD en las piernas, armónico en el brazo, planetario en el medio, lineal en la rodilla grande."
+        },
+        {
+          "t": "MJCF",
+          "texto": "position manda ángulo, motor manda torque; actuatorfrcrange es el techo."
+        },
+        {
+          "t": "Medida",
+          "texto": "Rodilla del G1 a 90°: 31 N·m, 22 % del techo del modelo."
+        }
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Para ir más allá",
+      "links": [
+        {
+          "t": "The Humanoid Actuation Report (humanoid.guide)",
+          "href": "https://humanoid.guide/humanoid-robot-actuation-report/",
+          "icone": "grafico"
+        },
+        {
+          "t": "MJCF: actuator (position, motor, gear, forcerange)",
+          "href": "https://mujoco.readthedocs.io/en/stable/XMLreference.html",
+          "icone": "arquivo"
+        },
+        {
+          "t": "API de MuJoCo: mj_inverse",
+          "href": "https://mujoco.readthedocs.io/en/stable/APIreference/APIfunctions.html",
+          "icone": "terminal"
+        },
+        {
+          "t": "Berkeley Humanoid Lite: actuador cicloidal impreso",
+          "href": "https://github.com/HybridRobotics/Berkeley-Humanoid-Lite",
+          "icone": "git"
+        }
+      ]
+    }
+  ]
+}

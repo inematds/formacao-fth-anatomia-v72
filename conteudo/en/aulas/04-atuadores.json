@@ -1,0 +1,294 @@
+{
+  "slug": "atuadores",
+  "num": 4,
+  "menu": "Actuators",
+  "titulo": "Actuators: the body map",
+  "titulo_curto": "Actuators and torque",
+  "minutos": 15,
+  "lead": "Knee and wrist don't call for the same motor. In this lesson you see the four actuator types that show up in humanoids and where each one tends to win, learn how the MJCF describes a motor, and measure, by simulation, how much torque the G1's knee produces to hold the robot in a squat.",
+  "objetivo": "measure the torque of each joint of the G1 in a squat and compare it with the limit the MJCF declares for it.",
+  "competencias": [
+    "escolher-atuador-por-articulacao",
+    "ler-atuador-no-mjcf",
+    "medir-torque-por-simulacao"
+  ],
+  "aprende": [
+    {
+      "icone": "camadas",
+      "t": "QDD, harmonic, planetary and linear: the body map"
+    },
+    {
+      "icone": "arquivo",
+      "t": "position × motor in the MJCF: kp, ctrlrange, forcerange, actuatorfrcrange"
+    },
+    {
+      "icone": "grafico",
+      "t": "Knee torque from 0° to 90° of squat"
+    },
+    {
+      "icone": "check",
+      "t": "Two paths that have to agree: simulate at rest and mj_inverse"
+    }
+  ],
+  "hero_alt": "Three rotary robot actuators disassembled side by side on a dark workbench, with a torque wrench and an Allen key.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "Each type wins at a different joint",
+      "sub": "The industry has not converged on a single actuator, but on a map of the body (humanoid.guide report, reported). Click each type.",
+      "nos": [
+        {
+          "icone": "robo",
+          "titulo": "QDD",
+          "sub": "legs",
+          "forte": true,
+          "itens": [
+            {
+              "icone": "seta",
+              "t": "reduction ~5:1 to 20:1"
+            }
+          ],
+          "detalhe": "Quasi direct drive: a large motor with a single reduction stage. It withstands impact, lets the joint be moved from the outside (backdrivable), and lets you control torque without a torque sensor. Common in the legs of research and RL robots. Unitree describes the G1's motor as an inner-rotor PMSM with a crossed-roller bearing and dual encoder; calling it QDD is uncertain."
+        },
+        {
+          "icone": "chip",
+          "titulo": "Harmonic",
+          "sub": "arm, wrist",
+          "itens": [
+            {
+              "icone": "seta",
+              "t": "high reduction, compact"
+            }
+          ],
+          "detalhe": "Strain-wave reducer: a lot of reduction in a small volume and precise positioning. That is why it shows up in arms and wrists. Suppliers say it suffers from the repeated shock of a knee (supplier claim, reported)."
+        },
+        {
+          "icone": "camadas",
+          "titulo": "Planetary",
+          "sub": "middle ground",
+          "itens": [
+            {
+              "icone": "seta",
+              "t": "60–250 N·m (Schaeffler)"
+            }
+          ],
+          "detalhe": "A middle ground between cost, torque, and robustness. At CES 2026, Schaeffler showed a planetary actuator of 60 to 250 N·m with motor, encoder, and controller integrated (reported)."
+        },
+        {
+          "icone": "alvo",
+          "titulo": "Linear",
+          "sub": "large knee",
+          "itens": [
+            {
+              "icone": "seta",
+              "t": "planetary roller screw"
+            }
+          ],
+          "detalhe": "Turns rotation into a push through a roller screw. It shows up in the knee and ankle of a large humanoid, where the load is high and the stroke is short. On the Optimus, reports cite rotary actuators of 20, 110, and 180 N·m plus linear ones in the legs (reported)."
+        }
+      ],
+      "legenda": "Everything on this map comes from industry and supplier reports: it is a trend, not a specification."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "How the MJCF describes a motor",
+      "sub": "Click each attribute.",
+      "passos": [
+        {
+          "titulo": "position",
+          "sub": "the G1",
+          "texto": [
+            "The Menagerie's G1 uses position actuators: you send the target angle in ctrl and MuJoCo applies proportional control with kp=500 and critical damping (dampratio=1).",
+            "It's the same scheme as humanoid RL policies: the network sends joint targets and a PD on the robot turns that into torque (course 1 of the program)."
+          ]
+        },
+        {
+          "titulo": "motor",
+          "sub": "the H1",
+          "texto": [
+            "The Menagerie's H1 uses torque actuators: ctrl is already the torque, from -200 to 200 N·m at the hip and -300 to 300 at the knee.",
+            "Without a controller of your own, the H1 collapses in the first second. The G1 stands on its own because the position actuators hold the \"stand\" pose."
+          ]
+        },
+        {
+          "titulo": "ctrlrange",
+          "sub": "command range",
+          "texto": [
+            "On a position actuator, inheritrange=\"1\" copies the joint's range into the command: the target never leaves the mechanical limit.",
+            "With a torque actuator, the command range is the torque range."
+          ]
+        },
+        {
+          "titulo": "actuatorfrcrange",
+          "sub": "the ceiling",
+          "texto": [
+            "On the G1, the torque ceiling lives in the joint (actuatorfrcrange=\"-139 139\" on the knee). Even if the proportional term asks for more, MuJoCo clips it there.",
+            "This is the number the script uses to calculate the percentage of the limit."
+          ],
+          "exemplo": {
+            "rot": "Excerpt from g1.xml",
+            "texto": "position kp=\"500\" dampratio=\"1\" inheritrange=\"1\" · joint left_knee_joint actuatorfrcrange=\"-139 139\""
+          }
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "What the knee does when squatting",
+      "sub": "torque_agachado.py starts from the \"stand\" pose, bends the knee (hip and ankle bend by half, so the foot stays flat), holds for 2 s, and reads the torque of each joint. Then it checks the largest one with inverse dynamics.",
+      "blocos": [
+        {
+          "rot": "Terminal · knee at 90°",
+          "icone": "terminal",
+          "conteudo": "F=${FTH:-$HOME/fth}; cd $F/anatomia && . $F/.venv/bin/activate\npython3 kit/torque_agachado.py --joelho 90"
+        },
+        {
+          "rot": "Terminal · from 0° to 120°",
+          "icone": "terminal",
+          "conteudo": "F=${FTH:-$HOME/fth}; cd $F/anatomia && . $F/.venv/bin/activate\nfor k in 0 30 60 90 120; do\n  echo \"joelho $k°: $(python3 kit/torque_agachado.py --joelho $k | grep -E '^joelhos|^ATENÇÃO' | tr '\\n' ' ')\"\ndone"
+        }
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {
+            "rot": "Captured output (10/19/2026)",
+            "html": "<pre>joelho dobrado 90° · altura da pelve 0.59 m · 8 contatos com o chão\njunta                         torque (N·m)  limite  % do limite\nleft_knee_joint                         31     139          22%\nright_knee_joint                        31     139          22%\nleft_hip_pitch_joint                     2      88           2%\nright_hip_pitch_joint                    2      88           2%\nconferência mj_inverse (left_knee_joint): 31 N·m\njoelhos: esquerdo 31 N·m · direito 31 N·m\nmaior torque: left_knee_joint 31 N·m</pre><p>31 N·m in each knee, 22% of the model's ceiling. Simulating at rest and mj_inverse give the same value: that is the sign the pose is in equilibrium.</p>"
+          },
+          {
+            "rot": "The sweep and the common mistake",
+            "html": "<pre>joelho 0°: joelhos: esquerdo 0 N·m · direito 0 N·m \njoelho 30°: joelhos: esquerdo 11 N·m · direito 11 N·m \njoelho 60°: joelhos: esquerdo 21 N·m · direito 21 N·m \njoelho 90°: joelhos: esquerdo 31 N·m · direito 31 N·m \njoelho 120°: ATENÇÃO: o robô caiu. joelhos: esquerdo 2 N·m · direito 2 N·m </pre><p>Torque rises almost in a straight line up to 90°. At 120° the robot fell and sat down, and the \"torque\" reading collapses: a fallen robot's number is not a measurement. That is why the script warns you when the pelvis drops below 0.4 m.</p>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Practice",
+      "sub": "Measure, sweep, and compare with the real robot.",
+      "exercicios": [
+        {
+          "id": "e1",
+          "titulo": "E1 · Knee at 90°",
+          "min": "3 min",
+          "texto": "Run the \"knee at 90°\" block and check that both paths (simulation at rest and mj_inverse) agree.",
+          "pronto": "<code>python3 kit/torque_agachado.py --joelho 90</code> ends with <code>maior torque: left_knee_joint 31 N·m</code>, with <code>conferência mj_inverse (left_knee_joint): 31 N·m</code>."
+        },
+        {
+          "id": "e2",
+          "titulo": "E2 · The knee curve",
+          "min": "5 min",
+          "texto": "Run the sweep and write down the knee torque at each angle in a table. At what angle does the robot stop squatting and fall?",
+          "pronto": "the sweep shows <code>joelho 60°: joelhos: esquerdo 21 N·m · direito 21 N·m</code> and the 120° line starts with <code>ATENÇÃO: o robô caiu.</code>"
+        },
+        {
+          "id": "e3",
+          "titulo": "E3 · Model vs. real robot",
+          "min": "5 min",
+          "texto": "Resellers cite a 90 N·m knee peak for the base G1 and 120 N·m for the EDU (reported). Calculate how much the 31 N·m of the squat represents in each case, and say whether there is margin left to jump.",
+          "pronto": "you wrote down three percentages (22% of the model, about 34% of the base, and 26% of the EDU) and one sentence about margin, noting that the reseller numbers are reported."
+        }
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Lesson quiz",
+      "sub": "The explanation appears after you answer.",
+      "perguntas": [
+        {
+          "p": "Why does the Menagerie G1 stand up with no controller of your own, and the H1 does not?",
+          "opcoes": [
+            "Because the G1 is much lighter than the H1 and falls more slowly.",
+            "The G1 uses position actuators that hold the pose; the H1 uses torque ones.",
+            "Because the Menagerie H1 has no saved pose (keyframe).",
+            "Because the G1 declares four IMU sensors and the H1 declares none."
+          ],
+          "certa": 1,
+          "explica": "A position actuator with kp=500 is already a controller. On the H1, ctrl is torque: with zero, it collapses. Weight and sensors do not change that.",
+          "ref": "passos",
+          "cert": true
+        },
+        {
+          "p": "Where does the harmonic reducer usually show up in a humanoid?",
+          "opcoes": [
+            "In the knee of robots that run and jump, where the shock is greatest.",
+            "In the foot, working as a shock absorber against the ground.",
+            "In arms and wrists, where high reduction and small size matter.",
+            "Nowhere: manufacturers abandoned this reducer in 2026."
+          ],
+          "certa": 2,
+          "explica": "The harmonic drive is compact and precise; repeated shock on a knee is the weak point suppliers cite. That is why the body map places it in the arm.",
+          "ref": "diagrama"
+        },
+        {
+          "p": "Simulating at rest gave 31 N·m at the knee, and so did mj_inverse. What does that agreement show?",
+          "opcoes": [
+            "That the robot is in static equilibrium in that pose.",
+            "That the Menagerie model is identical to the real robot.",
+            "That the 139 N·m limit declared in the file is wrong.",
+            "That the knee will break if used this way for a long time."
+          ],
+          "certa": 0,
+          "explica": "With zero velocity and acceleration, the inverse dynamics torque is what is needed to hold the pose. Matching the simulation shows equilibrium, not fidelity to the real robot.",
+          "ref": "codigo"
+        },
+        {
+          "p": "At 120° the script read 2 N·m at the knee. What should you conclude?",
+          "opcoes": [
+            "That squatting deeper eases the strain on the robot's knee.",
+            "That the actuator saturated and went past the declared 139 N·m ceiling.",
+            "That MuJoCo has a numerical error in this angle range.",
+            "That the robot fell; the torque of a fallen robot does not measure a squat."
+          ],
+          "certa": 3,
+          "explica": "The pelvis went close to the floor: the robot sat down. Before you use a simulation number, check that the robot is in the situation you wanted to measure.",
+          "ref": "codigo"
+        }
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "In three sentences",
+      "itens": [
+        {
+          "t": "Map",
+          "texto": "QDD in the legs, harmonic in the arm, planetary in the middle, linear in a big knee."
+        },
+        {
+          "t": "MJCF",
+          "texto": "position sends an angle, motor sends a torque; actuatorfrcrange is the ceiling."
+        },
+        {
+          "t": "Measurement",
+          "texto": "G1 knee at 90°: 31 N·m, 22 % of the model's ceiling."
+        }
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "To go further",
+      "links": [
+        {
+          "t": "The Humanoid Actuation Report (humanoid.guide)",
+          "href": "https://humanoid.guide/humanoid-robot-actuation-report/",
+          "icone": "grafico"
+        },
+        {
+          "t": "MJCF: actuator (position, motor, gear, forcerange)",
+          "href": "https://mujoco.readthedocs.io/en/stable/XMLreference.html",
+          "icone": "arquivo"
+        },
+        {
+          "t": "MuJoCo API: mj_inverse",
+          "href": "https://mujoco.readthedocs.io/en/stable/APIreference/APIfunctions.html",
+          "icone": "terminal"
+        },
+        {
+          "t": "Berkeley Humanoid Lite: 3D-printed cycloidal actuator",
+          "href": "https://github.com/HybridRobotics/Berkeley-Humanoid-Lite",
+          "icone": "git"
+        }
+      ]
+    }
+  ]
+}

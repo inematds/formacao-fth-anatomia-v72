@@ -1,0 +1,9 @@
+  Unitree G1             falta: estágio, fonte, data
+  Unitree R1             falta: estágio, fonte, data
+  Booster K1             falta: estágio, fonte, data
+  Figure 03              falta: estágio, fonte, data
+  Boston Dynamics Atlas  falta: estágio, fonte, data
+  1X NEO                 falta: estágio, fonte, data
+estágios: demo 0 · piloto 0 · produção 0
+6 robôs, 0 com fonte e data
+saída: 1

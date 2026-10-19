@@ -1,0 +1,2 @@
+ERRO: não achei apptronik_apollo/scene.xml (nem em ~/fth/mujoco_menagerie). Rode a preparação da aula 2.
+saída: 1

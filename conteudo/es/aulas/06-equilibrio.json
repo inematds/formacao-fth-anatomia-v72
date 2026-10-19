@@ -1,0 +1,273 @@
+{
+  "slug": "equilibrio",
+  "num": 6,
+  "menu": "Equilibrio",
+  "titulo": "Equilibrio: centro de masa y polígono de apoyo",
+  "titulo_curto": "CoM y polígono de apoyo",
+  "minutos": 15,
+  "lead": "Un humanoide de pie es un péndulo invertido sobre dos pies pequeños. En esta clase calculas el centro de masa, el polígono de apoyo y el centro de presión del G1 en el propio modelo, empujas al robot con fuerzas diferentes y separas tres cosas que suelen venir mezcladas: salir del apoyo, balancearse y caer.",
+  "objetivo": "empujar al G1 y decir, por la simulación, cuándo el centro de masa sale del polígono de apoyo y si el robot cae.",
+  "competencias": [
+    "calcular-com-e-poligono",
+    "ler-cop-zmp",
+    "distinguir-sair-do-apoio-de-cair"
+  ],
+  "aprende": [
+    {
+      "icone": "alvo",
+      "t": "Centro de masa, polígono de apoyo y centro de presión (ZMP en suelo plano)"
+    },
+    {
+      "icone": "grafico",
+      "t": "Margen del CoM en centímetros, cada 0,25 s"
+    },
+    {
+      "icone": "camadas",
+      "t": "Por qué 25 N sale del apoyo y vuelve, y 35 N lo derriba"
+    },
+    {
+      "icone": "cerebro",
+      "t": "Dónde entran el control clásico (ZMP) y el RL"
+    }
+  ],
+  "hero_alt": "Robot humanoide de pie en un laboratorio oscuro recibiendo un empujón de una vara acolchada, con cable de seguridad sujeto al pórtico.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "Cuatro magnitudes, una pregunta: ¿se cae?",
+      "sub": "Haz clic en cada bloque.",
+      "nos": [
+        {
+          "icone": "alvo",
+          "titulo": "CoM",
+          "sub": "centro de masa",
+          "itens": [
+            {
+              "icone": "lista",
+              "t": "d.subtree_com de la pelvis"
+            }
+          ],
+          "detalhe": "El promedio de las posiciones de todos los cuerpos, ponderado por la masa. MuJoCo lo calcula en d.subtree_com; el de la pelvis es el del robot entero. En reposo, el del G1 queda a 0,69 m del suelo (clase 8)."
+        },
+        {
+          "icone": "camadas",
+          "titulo": "Apoyo",
+          "sub": "polígono",
+          "itens": [
+            {
+              "icone": "lista",
+              "t": "envolvente de los contactos"
+            }
+          ],
+          "detalhe": "El polígono convexo más pequeño que contiene todos los puntos de los pies que tocan el suelo con fuerza. Con los dos pies en el suelo, es el área entre ellos; con el pie en la punta, se reduce a una línea."
+        },
+        {
+          "icone": "grafico",
+          "titulo": "CoP / ZMP",
+          "sub": "dónde empuja el suelo",
+          "forte": true,
+          "itens": [
+            {
+              "icone": "lista",
+              "t": "promedio de los contactos ponderado por la fuerza"
+            }
+          ],
+          "detalhe": "El centro de presión es el punto medio de los contactos, ponderado por la fuerza normal. En suelo plano, coincide con el ZMP de los controladores clásicos. Nunca sale del polígono: cuando toca el borde, el pie empieza a girar."
+        },
+        {
+          "icone": "x",
+          "titulo": "Caída",
+          "sub": "velocidad",
+          "itens": [
+            {
+              "icone": "lista",
+              "t": "pelvis por debajo de 0,5 m"
+            }
+          ],
+          "detalhe": "Que el CoM quede fuera del apoyo por un instante no lo derriba: el robot gira sobre el borde del pie y puede volver. Lo que lo derriba es girar demasiado rápido para volver. El script llama caída a la pelvis por debajo de 0,5 m en t = 3 s."
+        }
+      ],
+      "legenda": "Parado, basta con que el CoM esté dentro del apoyo. En movimiento, mandan el CoP y la velocidad."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "Lo que muestra el barrido de empujones",
+      "sub": "Empujón de 0,2 s hacia adelante en el torso, con el G1 solo sosteniendo la pose. Haz clic en cada franja.",
+      "passos": [
+        {
+          "titulo": "Hasta 15 N",
+          "sub": "se queda",
+          "texto": [
+            "El CoM nunca sale del polígono: el margen no se vuelve negativo en ningún instante.",
+            "Es lo que aguanta cualquier pose rígida: el impulso es pequeño (3 N·s)."
+          ]
+        },
+        {
+          "titulo": "20 a 30 N",
+          "sub": "sale y vuelve",
+          "texto": [
+            "El robot sube a la punta de los pies, el polígono se vuelve una línea y el CoM queda fuera de ella por un instante. Aun así vuelve y termina de pie.",
+            "Salir del apoyo no es caer: es empezar a girar."
+          ]
+        },
+        {
+          "titulo": "35 a 40 N",
+          "sub": "cae",
+          "texto": [
+            "Con 40 N el CoM sale en t = 0,73 s; el robot se balancea hacia adelante, vuelve, se pasa del punto y cae hacia atrás, sin mover un pie.",
+            "Un controlador de equilibrio daría un paso o movería cadera y tobillo. Aquí no hay controlador: es el límite del cuerpo solo."
+          ]
+        },
+        {
+          "titulo": "Clásico × RL",
+          "sub": "quién corrige",
+          "texto": [
+            "Los controladores clásicos planifican el ZMP para que quede dentro del apoyo (modelos centroidales, MPC). La locomoción de humanoides en investigación hoy se entrena con RL en miles de simulaciones paralelas (curso 1).",
+            "La investigación de la formación no encontró, hasta 10/2026, una comparación independiente que diga cuál es mejor: los dos conviven."
+          ]
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "Empujar el G1",
+      "sub": "El equilibrio.py aplica la fuerza en el torso en t = 0,5 s e imprime cada 0,25 s el margen del CoM (positivo = dentro del apoyo), el CoP hacia adelante y la altura de la pelvis.",
+      "blocos": [
+        {
+          "rot": "Terminal · empujón de 40 N",
+          "icone": "terminal",
+          "conteudo": "F=${FTH:-$HOME/fth}; cd $F/anatomia && . $F/.venv/bin/activate\npython3 kit/equilibrio.py --empurrao 40"
+        },
+        {
+          "rot": "Terminal · de 10 N a 40 N",
+          "icone": "terminal",
+          "conteudo": "F=${FTH:-$HOME/fth}; cd $F/anatomia && . $F/.venv/bin/activate\nfor n in 10 15 20 25 30 35 40; do\n  echo \"$n N → $(python3 kit/equilibrio.py --empurrao $n | tail -2 | cut -d'(' -f1 | tr '\\n' ' ')\"\ndone"
+        }
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {
+            "rot": "Salida capturada (19/10/2026)",
+            "html": "<pre>empurrão de 40 N por 0.2 s no tronco (t = 0.5 s) · impulso 8 N·s\nt (s)  margem do CoM (cm)  CoP x (cm)  pelve z (m)\n 0.00                 5.3         0.1         0.79\n 0.25                 5.3         0.4         0.79\n 0.50                 5.3         0.3         0.79\n 0.75                -8.1        12.0         0.79\n 1.00                -5.8        12.1         0.79\n 1.25                -8.1        12.2         0.79\n 1.50                -3.4        -4.8         0.79\n 1.75                -1.2        -4.8         0.79\n 2.00                -6.7        -4.8         0.79\n 2.25               -17.4        -4.7         0.76\n 2.50               -39.6        -4.5         0.64\n 2.75               -68.4        -8.4         0.15\n 3.00               -68.9       -11.4         0.06\nCoM dentro do apoio: não · saiu em t = 0.73 s\nqueda: sim (pelve a 0.06 m em t = 3 s)</pre><p>El CoP va a 12 cm (punta de los pies), luego a -4,8 cm (talón); la pelvis solo se desploma después de 2,25 s, cuando el robot cae hacia atrás.</p>"
+          },
+          {
+            "rot": "Error común: CoM fuera = caída",
+            "html": "<pre>10 N → CoM dentro do apoio: sim  queda: não  \n15 N → CoM dentro do apoio: sim  queda: não  \n20 N → CoM dentro do apoio: não · saiu em t = 1.40 s queda: não  \n25 N → CoM dentro do apoio: não · saiu em t = 1.35 s queda: não  \n30 N → CoM dentro do apoio: não · saiu em t = 0.81 s queda: não  \n35 N → CoM dentro do apoio: não · saiu em t = 0.76 s queda: sim  \n40 N → CoM dentro do apoio: não · saiu em t = 0.73 s queda: sim  </pre><p>De 20 a 30 N el CoM sale del apoyo y el robot no cae. Quien mide el equilibrio solo por la posición del CoM se equivoca de 20 a 30 N; hay que mirar también la velocidad y lo que pasa después.</p>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Práctica",
+      "sub": "Encontrar el límite del cuerpo sin controlador.",
+      "exercicios": [
+        {
+          "id": "e1",
+          "titulo": "E1 · Empujón que derriba",
+          "min": "3 min",
+          "texto": "Ejecuta el bloque de 40 N y describe el movimiento leyendo las columnas de CoP y pelvis.",
+          "pronto": "<code>python3 kit/equilibrio.py --empurrao 40</code> termina en <code>CoM dentro do apoio: não · saiu em t = 0.73 s</code> y <code>queda: sim</code>."
+        },
+        {
+          "id": "e2",
+          "titulo": "E2 · Empujón que aguanta",
+          "min": "3 min",
+          "texto": "Repite con 15 N.",
+          "pronto": "<code>python3 kit/equilibrio.py --empurrao 15 | tail -2</code> → <code>CoM dentro do apoio: sim (o tempo todo)</code> y <code>queda: não</code>."
+        },
+        {
+          "id": "e3",
+          "titulo": "E3 · Impulso, no fuerza",
+          "min": "5 min",
+          "texto": "Ejecuta 40 N por 0,1 s y 80 N por 0,1 s. Compara con 40 N por 0,2 s: ¿lo que importa es la fuerza o el producto fuerza × tiempo?",
+          "pronto": "<code>--empurrao 40 --duracao 0.1</code> termina en <code>queda: não</code> y <code>--empurrao 80 --duracao 0.1</code> en <code>queda: sim</code>; tú escribiste los tres impulsos (4, 8 y 8 N·s)."
+        }
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Prueba de la clase",
+      "sub": "La explicación aparece después de tu respuesta.",
+      "perguntas": [
+        {
+          "p": "Con 25 N el CoM salió del polígono de apoyo, pero el robot terminó de pie. ¿Cómo se explica?",
+          "opcoes": [
+            "El script se equivocó en el cálculo del polígono de apoyo en este caso.",
+            "Giró sobre el borde del pie con poca velocidad y volvió.",
+            "MuJoCo deja de calcular el CoM después del primer segundo.",
+            "El polígono de apoyo creció y alcanzó el CoM de nuevo."
+          ],
+          "certa": 1,
+          "explica": "Fuera del apoyo, el cuerpo empieza a girar sobre el borde. Si la velocidad es pequeña, la gravedad lo trae de vuelta. Salir del apoyo no es caer.",
+          "ref": "passos",
+          "cert": true
+        },
+        {
+          "p": "En piso plano, ¿qué es el ZMP de los controladores clásicos?",
+          "opcoes": [
+            "El mismo punto que el centro de masa del robot completo.",
+            "El punto más alto del robot, que en el G1 es la cabeza.",
+            "El centro de presión: promedio de los contactos ponderado por la fuerza.",
+            "La articulación que hace más torque durante el empujón en el tronco."
+          ],
+          "certa": 2,
+          "explica": "En piso plano, ZMP y centro de presión coinciden. El CoM es otra cosa: puede salir del polígono; el CoP no.",
+          "ref": "diagrama"
+        },
+        {
+          "p": "40 N por 0,1 s no lo derriba; 40 N por 0,2 s lo derriba. ¿Qué enseña esto?",
+          "opcoes": [
+            "Que la duración del empujón no cambia nada en el resultado.",
+            "Que MuJoCo se vuelve inestable cuando el empujón es demasiado corto y fuerte.",
+            "Que 40 N es el límite exacto que el G1 real aguanta de pie.",
+            "Que el impulso (fuerza × tiempo) es lo que cuenta para la caída."
+          ],
+          "certa": 3,
+          "explica": "4 N·s no lo derriba, 8 N·s lo derriba, con 40 N o con 80 N. Y nada de esto es el límite del G1 real: aquí no hay controlador de equilibrio.",
+          "ref": "codigo"
+        }
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "En tres frases",
+      "itens": [
+        {
+          "t": "Magnitudes",
+          "texto": "El CoM, el polígono de apoyo y el CoP salen del modelo en cada paso."
+        },
+        {
+          "t": "Dinámica",
+          "texto": "Salir del apoyo es girar; caer es girar demasiado rápido para volver."
+        },
+        {
+          "t": "Límite",
+          "texto": "Sin controlador, el G1 aguanta 15 N por 0,2 s y cae con 35 N."
+        }
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Para ir más allá",
+      "links": [
+        {
+          "t": "API de MuJoCo: mj_contactForce y subtree_com",
+          "href": "https://mujoco.readthedocs.io/en/stable/APIreference/APIfunctions.html",
+          "icone": "terminal"
+        },
+        {
+          "t": "mjlab: locomoción del G1 por RL (curso 1)",
+          "href": "https://github.com/mujocolab/mjlab",
+          "icone": "git"
+        },
+        {
+          "t": "unitree_rl_lab: tareas de RL del G1",
+          "href": "https://github.com/unitreerobotics/unitree_rl_lab",
+          "icone": "git"
+        }
+      ]
+    }
+  ]
+}
