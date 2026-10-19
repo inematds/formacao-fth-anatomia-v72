@@ -179,7 +179,7 @@
           "titulo": "E2 · La curva de la rodilla",
           "min": "5 min",
           "texto": "Ejecuta el barrido y anota en una tabla el torque de la rodilla en cada ángulo. ¿En qué ángulo el robot deja de agacharse y cae?",
-          "pronto": "el barrido muestra <code>joelho 60°: joelhos: esquerdo 21 N·m · direito 21 N·m</code> y la línea de 120° empieza con <code>ATENÇÃO: o robô caiu.</code>"
+          "pronto": "el barrido muestra <code>joelho 60°: joelhos: esquerdo 21 N·m · direito 21 N·m</code> y la línea de 120° muestra <code>ATENÇÃO: o robô caiu.</code>"
         },
         {
           "id": "e3",

@@ -84,7 +84,7 @@
               "t": "pelvis below 0.5 m"
             }
           ],
-          "detalhe": "CoM outside the support for a moment does not knock it over: the robot rotates over the edge of the foot and can come back. What knocks it over is rotating too fast to come back. The script calls it a fall when the pelvis is below 0.5 m at t = 3 s."
+          "detalhe": "CoM outside the support for an instant does not make it fall: the robot rolls over the edge of the foot and can come back. What makes it fall is rotating too fast to come back. The equilibrio.py calls a fall the pelvis below 0.5 m at t = 3 s (the torque_agachado.py from lesson 4 uses 0.4 m, because when squatting the pelvis already drops to 0.59 m)."
         }
       ],
       "legenda": "Standing still, it is enough for the CoM to be inside the support. In motion, the CoP and the speed are what matter."

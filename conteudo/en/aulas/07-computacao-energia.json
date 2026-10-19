@@ -73,7 +73,7 @@
               "t": "1–2 ms"
             }
           ],
-          "detalhe": "Turns a joint target into torque, joint by joint, and holds the body between two policy decisions. It runs on the robot, in the manufacturer's software. Helix 02's whole-body controller runs at 1 kHz, with 10 million parameters (Figure, 01/27/2026)."
+          "detalhe": "It turns a joint target into torque, joint by joint, and holds the body between two policy decisions. It usually runs on the robot, in the manufacturer's SDK (synthesis of the program's research). The equivalent on the Figure is a different beast: Helix 02's S0, a learned whole-body controller, at 1 kHz and with 10 million parameters (Figure, 01/27/2026)."
         },
         {
           "icone": "chip",

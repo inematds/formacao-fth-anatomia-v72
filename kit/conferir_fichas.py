@@ -41,7 +41,7 @@ def main():
             contagem[est] += 1
             print(f"  {r['robo'].strip():<22} {est:<9} {r['data'].strip()}")
     print(f"estágios: demo {contagem['demo']} · piloto {contagem['piloto']} · produção {contagem['produção']}")
-    print(f"{len(linhas)} robôs, {ok} com fonte e data")
+    print(f"{len(linhas)} {'robô' if len(linhas) == 1 else 'robôs'}, {ok} com fonte e data")
     return 0 if len(linhas) >= 6 and ok == len(linhas) else 1
 
 

@@ -84,7 +84,7 @@
               "t": "pelve abaixo de 0,5 m"
             }
           ],
-          "detalhe": "CoM fora do apoio por um instante não derruba: o robô gira sobre a borda do pé e pode voltar. O que derruba é girar rápido demais para voltar. O script chama de queda a pelve abaixo de 0,5 m em t = 3 s."
+          "detalhe": "CoM fora do apoio por um instante não derruba: o robô gira sobre a borda do pé e pode voltar. O que derruba é girar rápido demais para voltar. O equilibrio.py chama de queda a pelve abaixo de 0,5 m em t = 3 s (o torque_agachado.py da aula 4 usa 0,4 m, porque agachado a pelve já desce a 0,59 m)."
         }
       ],
       "legenda": "Parado, basta o CoM dentro do apoio. Em movimento, quem manda é o CoP e a velocidade."

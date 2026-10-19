@@ -101,7 +101,7 @@
               "t": "muñeca: roll, pitch, yaw"
             }
           ],
-          "detalhe": "Siete por brazo en el modelo; la ficha de Unitree habla de 5 en el brazo de la versión base. Las muñecas del modelo aguantan solo 5 N·m: sirven para orientar la mano, no para cargar peso."
+          "detalhe": "Siete por brazo en el modelo; la ficha de Unitree habla de 5 en el brazo de la versión base. En la muñeca, pitch y yaw aguantan solo 5 N·m (el roll, 25): sirven para orientar la mano, no para cargar peso."
         }
       ],
       "legenda": "12 en las piernas + 3 en la cintura + 14 en los brazos = 29 = nu."
@@ -131,7 +131,7 @@
           "titulo": "Torque máximo",
           "sub": "actuatorfrcrange",
           "texto": [
-            "El atributo actuatorfrcrange de la articulación recorta lo que el motor puede hacer: 139 N·m en la rodilla, 88 en el pitch de la cadera, 50 en el tobillo, 25 en el hombro, 5 en la muñeca.",
+            "El atributo actuatorfrcrange de la articulación recorta lo que el motor puede hacer: 139 N·m en la rodilla, 88 en el pitch de la cadera, 50 en el tobillo, 25 en el hombro, 5 en el pitch y en el yaw de la muñeca.",
             "Es el límite del modelo. Las reventas citan 90 N·m (base) y 120 N·m (EDU) para la rodilla del G1 real (reportado): un punto más en el que archivo y robot pueden divergir."
           ]
         },

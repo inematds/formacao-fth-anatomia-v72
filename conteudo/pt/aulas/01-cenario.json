@@ -89,7 +89,7 @@
               "t": "Booster K1"
             }
           ],
-          "detalhe": "Vendido com preço público a quem paga. A Unitree lista G1 (US$ 13,5 mil o base), R1 (US$ 4.900 / 5.900) e H2 (US$ 29.900) na loja oficial; a Booster vende o K1 também pelo programa da RoboCup 2026. É o degrau das plataformas de pesquisa."
+          "detalhe": "Vendido com preço público a quem paga. A Unitree lista G1 (US$ 13,5 mil o base), R1 (R1 AIR US$ 4.900, R1 US$ 5.900) e H2 (US$ 29.900) na loja oficial; a Booster vende o K1 também pelo programa da RoboCup 2026. É o degrau das plataformas de pesquisa."
         },
         {
           "icone": "grafico",
@@ -132,8 +132,8 @@
           "titulo": "Modelo velho",
           "sub": "Figure 01/02, de 2023–24",
           "texto": [
-            "Material de 2024–25 ainda fala em Figure 01 e 02 com \"GPT-4 integrado\". Hoje é o Figure 03, com o Helix 02 controlando o corpo inteiro (o controlador de baixo nível roda a 1 kHz, segundo a Figure).",
-            "O Atlas hidráulico foi aposentado; o Atlas de produto é elétrico e saiu na CES 2026."
+            "Material de 2024–25 ainda fala em Figure 01 e 02. Hoje é o Figure 03, com o Helix 02 controlando o corpo inteiro (o controlador de baixo nível roda a 1 kHz, segundo a Figure).",
+            "O Atlas atual é elétrico: a versão de produto saiu na CES 2026."
           ]
         },
         {
@@ -141,14 +141,14 @@
           "sub": "K-Scale fechou (11/2025)",
           "texto": [
             "A K-Scale Labs, que vendia o K-Bot aberto, <b>fechou em 11/2025</b> e abriu o resto do projeto (relatado). Não indique como fornecedor.",
-            "Plataformas baratas que existem: Unitree R1 (US$ 5.900), Booster K1 (95 cm, 22 graus de liberdade), Berkeley Humanoid Lite (menos de US$ 5 mil em peças, relatado) e ToddlerBot (30 graus de liberdade, lista de peças pública)."
+            "Plataformas baratas que existem: Unitree R1 (R1 AIR US$ 4.900, R1 US$ 5.900), Booster K1 (95 cm, 22 graus de liberdade), Berkeley Humanoid Lite (menos de US$ 5 mil em peças, relatado) e ToddlerBot (30 graus de liberdade, lista de peças pública)."
           ]
         },
         {
           "titulo": "Recorde como prova",
           "sub": "competições",
           "texto": [
-            "A meia-maratona de humanoides de Pequim (19/04/2026) foi vencida em 50:26 por um robô autônomo, contra 2:40:42 em 2025; os Jogos Mundiais de Robôs Humanoides de agosto/2026 reuniram cerca de 2.056 robôs (relatado).",
+            "A meia-maratona de humanoides de Pequim (19/04/2026) foi vencida em 50:26 por um robô autônomo, contra 2:40:42 em 2025 (relatado); os Jogos Mundiais de Robôs Humanoides de agosto/2026 reuniram cerca de 2.056 robôs (relatado).",
             "Recorde mostra avanço de locomoção, não que o robô trabalhe numa fábrica. Mercado e rodadas de investimento ficam no curso de VLA."
           ]
         }
@@ -179,7 +179,7 @@
           },
           {
             "rot": "Erro comum: \"em breve\" e vídeo como fonte",
-            "html": "<pre>  Tesla Optimus V3       falta: estágio, fonte, data\nestágios: demo 0 · piloto 0 · produção 0\n1 robôs, 0 com fonte e data\nsaída: 1</pre><p>\"Em breve\" não é estágio, \"vi num vídeo\" não é URL e \"2026\" sozinho não é data. Para o Optimus V3, a resposta honesta é <b>demo</b>, com a fonte da Tesla e a data.</p>"
+            "html": "<pre>  Tesla Optimus V3       falta: estágio, fonte, data\nestágios: demo 0 · piloto 0 · produção 0\n1 robô, 0 com fonte e data\nsaída: 1</pre><p>\"Em breve\" não é estágio, \"vi num vídeo\" não é URL e \"2026\" sozinho não é data. Para o Optimus V3, a resposta honesta é <b>demo</b>, com a fonte da Tesla e a data.</p>"
           }
         ]
       }
@@ -200,7 +200,7 @@
         "abas": [
           {
             "rot": "Saída capturada (19/10/2026)",
-            "html": "<pre>  Unitree G1             produção  19/10/2026\n  Unitree R1             produção  19/10/2026\n  Booster K1             produção  19/10/2026\n  Figure 03              piloto    27/01/2026\n  Boston Dynamics Atlas  piloto    01/2026\n  1X NEO                 demo      04/2026\nestágios: demo 1 · piloto 2 · produção 3\n6 robôs, 6 com fonte e data\nsaída: 0</pre><p>Uma resposta possível, com as fontes desta aula. Você pode discordar de um estágio (o Atlas já é produção?), desde que a evidência sustente.</p>"
+            "html": "<pre>  Unitree G1             produção  19/10/2026\n  Unitree R1             produção  19/10/2026\n  Booster K1             produção  19/10/2026\n  Figure 03              piloto    27/01/2026\n  Boston Dynamics Atlas  piloto    01/2026\n  1X NEO                 demo      04/2026\nestágios: demo 1 · piloto 2 · produção 3\n6 robôs, 6 com fonte e data\nsaída: 0</pre><p>Uma resposta possível, com as fontes desta aula; a data é a da fonte usada (no Figure 03, o anúncio do Helix 02; a chegada à BMW, ~06/2026, é relatada). Você pode discordar de um estágio (o Atlas já é produção?), desde que a evidência sustente.</p>"
           }
         ]
       }
@@ -269,14 +269,14 @@
             "O Optimus V3 foi mostrado ao público no 1º trimestre de 2026, como previsto.",
             "O Figure 03 já é vendido ao consumidor pelo site oficial da Figure.",
             "O G1 base vem com SDK e custa US$ 13,5 mil na loja da Unitree.",
-            "A Unitree lista o R1 a partir de US$ 4.900 (loja oficial, 19/10/2026)."
+            "A Unitree lista o R1 AIR a US$ 4.900 e o R1 a US$ 5.900 (19/10/2026)."
           ],
           "certa": 3,
           "explica": "Só a do R1 tem fonte primária e data. O Optimus V3 não tinha aparecido em público até ago/2026, o Figure 03 não tem venda ao consumidor e o G1 base vem sem SDK.",
           "ref": "passos"
         },
         {
-          "p": "A meia-maratona de Pequim de 2026 foi vencida em 50:26. O que esse número prova?",
+          "p": "Segundo a imprensa, a meia-maratona de Pequim de 2026 foi vencida em 50:26. O que esse número prova?",
           "opcoes": [
             "Que humanoides já fazem turno completo em fábrica.",
             "Que a locomoção autônoma avançou muito em um ano.",

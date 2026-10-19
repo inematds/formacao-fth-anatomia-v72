@@ -179,7 +179,7 @@
           "titulo": "E2 · A curva do joelho",
           "min": "5 min",
           "texto": "Rode a varredura e anote numa tabela o torque do joelho em cada ângulo. Em que ângulo o robô deixa de agachar e cai?",
-          "pronto": "a varredura mostra <code>joelho 60°: joelhos: esquerdo 21 N·m · direito 21 N·m</code> e a linha de 120° começa com <code>ATENÇÃO: o robô caiu.</code>"
+          "pronto": "a varredura mostra <code>joelho 60°: joelhos: esquerdo 21 N·m · direito 21 N·m</code> e a linha de 120° mostra <code>ATENÇÃO: o robô caiu.</code>"
         },
         {
           "id": "e3",

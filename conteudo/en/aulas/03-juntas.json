@@ -101,7 +101,7 @@
               "t": "wrist: roll, pitch, yaw"
             }
           ],
-          "detalhe": "Seven per arm in the model; the Unitree spec sheet mentions 5 in the arm of the base version. The model's wrists can only handle 5 N·m: they are for orienting the hand, not for carrying weight."
+          "detalhe": "Seven per arm in the model; Unitree's spec sheet says 5 on the base version's arm. At the wrist, pitch and yaw handle only 5 N·m (the roll, 25): they are for orienting the hand, not for carrying weight."
         }
       ],
       "legenda": "12 in the legs + 3 in the waist + 14 in the arms = 29 = nu."
@@ -131,7 +131,7 @@
           "titulo": "Maximum torque",
           "sub": "actuatorfrcrange",
           "texto": [
-            "The joint's actuatorfrcrange attribute caps what the motor can do: 139 N·m at the knee, 88 at the hip pitch, 50 at the ankle, 25 at the shoulder, 5 at the wrist.",
+            "The joint's actuatorfrcrange attribute caps what the motor can do: 139 N·m at the knee, 88 at the hip pitch, 50 at the ankle, 25 at the shoulder, 5 at the wrist pitch and yaw.",
             "This is the model's limit. Resellers quote 90 N·m (base) and 120 N·m (EDU) for the real G1's knee (reported): one more point where the file and the robot can differ."
           ]
         },

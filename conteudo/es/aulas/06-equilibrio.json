@@ -84,7 +84,7 @@
               "t": "pelvis por debajo de 0,5 m"
             }
           ],
-          "detalhe": "Que el CoM quede fuera del apoyo por un instante no lo derriba: el robot gira sobre el borde del pie y puede volver. Lo que lo derriba es girar demasiado rápido para volver. El script llama caída a la pelvis por debajo de 0,5 m en t = 3 s."
+          "detalhe": "El CoM fuera del apoyo por un instante no derriba: el robot gira sobre el borde del pie y puede volver. Lo que derriba es girar demasiado rápido para volver. El equilibrio.py llama caída a la pelvis por debajo de 0,5 m en t = 3 s (el torque_agachado.py de la clase 4 usa 0,4 m, porque agachado la pelvis ya baja a 0,59 m)."
         }
       ],
       "legenda": "Parado, basta con que el CoM esté dentro del apoyo. En movimiento, mandan el CoP y la velocidad."

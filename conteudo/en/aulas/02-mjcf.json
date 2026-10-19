@@ -183,7 +183,7 @@
         {
           "rot": "Optional · with a screen: see the robot",
           "icone": "play",
-          "conteudo": "~/fth/.venv/bin/python -m mujoco.viewer --mjcf=$HOME/fth/mujoco_menagerie/unitree_g1/scene.xml"
+          "conteudo": "F=${FTH:-$HOME/fth}; $F/.venv/bin/python -m mujoco.viewer --mjcf=$F/mujoco_menagerie/unitree_g1/scene.xml"
         }
       ],
       "saida": {

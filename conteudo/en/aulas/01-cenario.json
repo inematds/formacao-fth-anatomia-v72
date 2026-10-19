@@ -89,7 +89,7 @@
               "t": "Booster K1"
             }
           ],
-          "detalhe": "Sold at a public price to whoever pays. Unitree lists the G1 (US$ 13.5k for the base), R1 (US$ 4,900 / 5,900), and H2 (US$ 29,900) in its official store; Booster sells the K1 also through the RoboCup 2026 program. This is the step of research platforms."
+          "detalhe": "Sold at a public price to anyone who pays. Unitree lists the G1 (US$ 13.5k for the base model), the R1 (R1 AIR US$ 4,900, R1 US$ 5,900) and the H2 (US$ 29,900) in its official store; Booster also sells the K1 through the RoboCup 2026 program. This is the step of the research platforms."
         },
         {
           "icone": "grafico",
@@ -132,8 +132,8 @@
           "titulo": "Old model",
           "sub": "Figure 01/02, from 2023–24",
           "texto": [
-            "Material from 2024–25 still talks about Figure 01 and 02 with \"GPT-4 built in.\" Today it's the Figure 03, with Helix 02 controlling the whole body (the low-level controller runs at 1 kHz, according to Figure).",
-            "The hydraulic Atlas was retired; the product Atlas is electric and debuted at CES 2026."
+            "Material from 2024–25 still talks about Figure 01 and 02. Today it is the Figure 03, with Helix 02 controlling the whole body (the low-level controller runs at 1 kHz, according to Figure).",
+            "The current Atlas is electric: the product version came out at CES 2026."
           ]
         },
         {
@@ -141,14 +141,14 @@
           "sub": "K-Scale shut down (11/2025)",
           "texto": [
             "K-Scale Labs, which sold the open K-Bot, <b>shut down in 11/2025</b> and open-sourced the rest of the project (reported). Don't recommend it as a vendor.",
-            "Cheap platforms that exist: Unitree R1 (US$ 5,900), Booster K1 (95 cm, 22 degrees of freedom), Berkeley Humanoid Lite (under US$ 5k in parts, reported) and ToddlerBot (30 degrees of freedom, public parts list)."
+            "Cheap platforms that exist: Unitree R1 (R1 AIR US$ 4,900, R1 US$ 5,900), Booster K1 (95 cm, 22 degrees of freedom), Berkeley Humanoid Lite (under US$ 5k in parts, reported) and ToddlerBot (30 degrees of freedom, public parts list)."
           ]
         },
         {
           "titulo": "Record as proof",
           "sub": "competitions",
           "texto": [
-            "The Beijing humanoid half marathon (04/19/2026) was won in 50:26 by an autonomous robot, versus 2:40:42 in 2025; the World Humanoid Robot Games in August 2026 brought together about 2,056 robots (reported).",
+            "The Beijing humanoid half marathon (04/19/2026) was won in 50:26 by an autonomous robot, against 2:40:42 in 2025 (reported); the World Humanoid Robot Games in August 2026 brought together about 2,056 robots (reported).",
             "A record shows progress in locomotion, not that the robot works in a factory. Market and funding rounds are covered in the VLA course."
           ]
         }
@@ -179,7 +179,7 @@
           },
           {
             "rot": "Common mistake: \"coming soon\" and a video as a source",
-            "html": "<pre>  Tesla Optimus V3       falta: estágio, fonte, data\nestágios: demo 0 · piloto 0 · produção 0\n1 robôs, 0 com fonte e data\nsaída: 1</pre><p>\"Coming soon\" is not a stage, \"I saw it in a video\" is not a URL, and \"2026\" alone is not a date. For the Optimus V3, the honest answer is <b>demo</b>, with Tesla's source and the date.</p>"
+            "html": "<pre>  Tesla Optimus V3       falta: estágio, fonte, data\nestágios: demo 0 · piloto 0 · produção 0\n1 robô, 0 com fonte e data\nsaída: 1</pre><p>\"Coming soon\" is not a stage, \"I saw it in a video\" is not a URL, and \"2026\" alone is not a date. For the Optimus V3, the honest answer is <b>demo</b>, with Tesla's source and the date.</p>"
           }
         ]
       }
@@ -200,7 +200,7 @@
         "abas": [
           {
             "rot": "Captured output (10/19/2026)",
-            "html": "<pre>  Unitree G1             produção  19/10/2026\n  Unitree R1             produção  19/10/2026\n  Booster K1             produção  19/10/2026\n  Figure 03              piloto    27/01/2026\n  Boston Dynamics Atlas  piloto    01/2026\n  1X NEO                 demo      04/2026\nestágios: demo 1 · piloto 2 · produção 3\n6 robôs, 6 com fonte e data\nsaída: 0</pre><p>One possible answer, with the sources from this lesson. You can disagree on a stage (is the Atlas already production?), as long as the evidence backs it up.</p>"
+            "html": "<pre>  Unitree G1             produção  19/10/2026\n  Unitree R1             produção  19/10/2026\n  Booster K1             produção  19/10/2026\n  Figure 03              piloto    27/01/2026\n  Boston Dynamics Atlas  piloto    01/2026\n  1X NEO                 demo      04/2026\nestágios: demo 1 · piloto 2 · produção 3\n6 robôs, 6 com fonte e data\nsaída: 0</pre><p>One possible answer, with the sources from this lesson; the date is the one from the source used (for the Figure 03, the Helix 02 announcement; the arrival at BMW, ~06/2026, is reported). You may disagree with a stage (is the Atlas already production?), as long as the evidence supports it.</p>"
           }
         ]
       }
@@ -269,14 +269,14 @@
             "The Optimus V3 was shown to the public in the 1st quarter of 2026, as planned.",
             "The Figure 03 is already sold to consumers on Figure's official website.",
             "The base G1 comes with an SDK and costs US$ 13.5k in the Unitree store.",
-            "Unitree lists the R1 from US$ 4,900 (official store, 10/19/2026)."
+            "Unitree lists the R1 AIR at US$ 4,900 and the R1 at US$ 5,900 (10/19/2026)."
           ],
           "certa": 3,
           "explica": "Only the R1 one has a primary source and a date. The Optimus V3 had not appeared in public until Aug/2026, the Figure 03 has no consumer sales, and the base G1 comes without an SDK.",
           "ref": "passos"
         },
         {
-          "p": "The 2026 Beijing half marathon was won in 50:26. What does that number prove?",
+          "p": "According to the press, the 2026 Beijing half marathon was won in 50:26. What does that number prove?",
           "opcoes": [
             "That humanoids already work full shifts in factories.",
             "That autonomous locomotion has advanced a lot in one year.",

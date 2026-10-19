@@ -179,7 +179,7 @@
           "titulo": "E2 · The knee curve",
           "min": "5 min",
           "texto": "Run the sweep and write down the knee torque at each angle in a table. At what angle does the robot stop squatting and fall?",
-          "pronto": "the sweep shows <code>joelho 60°: joelhos: esquerdo 21 N·m · direito 21 N·m</code> and the 120° line starts with <code>ATENÇÃO: o robô caiu.</code>"
+          "pronto": "the sweep shows <code>joelho 60°: joelhos: esquerdo 21 N·m · direito 21 N·m</code> and the 120° line shows <code>ATENÇÃO: o robô caiu.</code>"
         },
         {
           "id": "e3",

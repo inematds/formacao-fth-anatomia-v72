@@ -73,7 +73,7 @@
               "t": "1–2 ms"
             }
           ],
-          "detalhe": "Transforma el objetivo de articulación en torque, articulación por articulación, y sostiene el cuerpo entre dos decisiones de la policy. Corre en el robot, en el software del fabricante. El controlador de cuerpo completo del Helix 02 corre a 1 kHz, con 10 millones de parámetros (Figure, 27/01/2026)."
+          "detalhe": "Transforma el objetivo de articulación en torque, articulación por articulación, y sostiene el cuerpo entre dos decisiones de la policy. En general corre en el robot, en el SDK del fabricante (síntesis de la investigación de la formación). El equivalente en Figure es otra cosa: el S0 del Helix 02, un controlador de cuerpo entero aprendido, a 1 kHz y con 10 millones de parámetros (Figure, 27/01/2026)."
         },
         {
           "icone": "chip",

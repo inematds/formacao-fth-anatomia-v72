@@ -73,7 +73,7 @@
               "t": "1–2 ms"
             }
           ],
-          "detalhe": "Transforma alvo de junta em torque, junta por junta, e segura o corpo entre duas decisões da política. Roda no robô, no software do fabricante. O controlador de corpo inteiro do Helix 02 roda a 1 kHz, com 10 milhões de parâmetros (Figure, 27/01/2026)."
+          "detalhe": "Transforma alvo de junta em torque, junta por junta, e segura o corpo entre duas decisões da política. Em geral roda no robô, no SDK do fabricante (síntese da pesquisa da formação). O equivalente na Figure é outro bicho: o S0 do Helix 02, um controlador de corpo inteiro aprendido, a 1 kHz e com 10 milhões de parâmetros (Figure, 27/01/2026)."
         },
         {
           "icone": "chip",

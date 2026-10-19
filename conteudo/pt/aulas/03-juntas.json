@@ -101,7 +101,7 @@
               "t": "punho: roll, pitch, yaw"
             }
           ],
-          "detalhe": "Sete por braço no modelo; a ficha da Unitree fala em 5 no braço da versão base. Os punhos do modelo aguentam só 5 N·m: servem para orientar a mão, não para carregar peso."
+          "detalhe": "Sete por braço no modelo; a ficha da Unitree fala em 5 no braço da versão base. No punho, pitch e yaw aguentam só 5 N·m (o roll, 25): servem para orientar a mão, não para carregar peso."
         }
       ],
       "legenda": "12 nas pernas + 3 na cintura + 14 nos braços = 29 = nu."
@@ -131,7 +131,7 @@
           "titulo": "Torque máximo",
           "sub": "actuatorfrcrange",
           "texto": [
-            "O atributo actuatorfrcrange da junta corta o que o motor pode fazer: 139 N·m no joelho, 88 no pitch do quadril, 50 no tornozelo, 25 no ombro, 5 no punho.",
+            "O atributo actuatorfrcrange da junta corta o que o motor pode fazer: 139 N·m no joelho, 88 no pitch do quadril, 50 no tornozelo, 25 no ombro, 5 no pitch e no yaw do punho.",
             "É o limite do modelo. Revendas citam 90 N·m (base) e 120 N·m (EDU) para o joelho do G1 real (relatado): mais um ponto em que arquivo e robô podem divergir."
           ]
         },
